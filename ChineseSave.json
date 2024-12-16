@@ -5,85 +5,2412 @@
             "Pinyin": {},
             "Translation": {}
         },
-        "translation": "Surf the Internet",
-        "id": "hsk1.321",
-        "date_added": "2024-11-26T13:31:17.810",
-        "date_last_reviewed_global": "2024-11-26T13:31:17.810",
-        "pinyin": "shang4wang3",
+        "translation": "also",
+        "id": "hsk1.425",
+        "date_added": "2024-12-16T14:11:52.010",
+        "date_last_reviewed_global": "2024-12-16T16:52:25.415",
+        "pinyin": "ye3",
         "context": "",
-        "hanzi": "上网",
-        "level_global": 0,
+        "hanzi": "也",
+        "level_global": 4,
         "stats": {
             "Translation -> Pinyin": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
+                "date_last_reviewed": "2024-12-16T16:52:25.415",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:26:54.426",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:52:25.415",
+                        "result": 1
+                    }
+                ],
                 "count_hint": 0,
                 "count_correct": 0,
-                "level": 0,
+                "level": 8,
                 "count_incorrect": 0
             },
             "Pinyin -> Translation": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
+                "date_last_reviewed": "2024-12-16T14:28:50.118",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:28:50.118",
+                        "result": 1
+                    }
+                ],
                 "count_hint": 0,
                 "count_correct": 0,
-                "level": 0,
+                "level": 5,
                 "count_incorrect": 0
             },
             "Hanzi -> Pinyin": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
+                "date_last_reviewed": "2024-12-16T14:35:45.127",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:35:45.127",
+                        "result": 1
+                    }
+                ],
                 "count_hint": 0,
                 "count_correct": 0,
-                "level": 0,
+                "level": 4,
                 "count_incorrect": 0
             },
             "Translation -> Hanzi": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
+                "date_last_reviewed": "2024-12-16T16:52:22.700",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:26:50.686",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 5,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:52:22.700",
+                        "result": 1
+                    }
+                ],
                 "count_hint": 0,
                 "count_correct": 0,
-                "level": 0,
+                "level": 7,
                 "count_incorrect": 0
             },
             "Pinyin -> Hanzi": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
+                "date_last_reviewed": "2024-12-16T14:28:46.939",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:28:46.939",
+                        "result": 1
+                    }
+                ],
                 "count_hint": 0,
                 "count_correct": 0,
-                "level": 0,
-                "count_incorrect": 0
-            },
-            "Translation -> Translation": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
-                "count_hint": 0,
-                "count_correct": 0,
-                "level": 0,
-                "count_incorrect": 0
-            },
-            "Pinyin -> Pinyin": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
-                "count_hint": 0,
-                "count_correct": 0,
-                "level": 0,
-                "count_incorrect": 0
-            },
-            "Hanzi -> Hanzi": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
-                "count_hint": 0,
-                "count_correct": 0,
-                "level": 0,
+                "level": 4,
                 "count_incorrect": 0
             },
             "Hanzi -> Translation": {
-                "date_last_reviewed": "2024-11-26T13:31:17.810",
-                "review_history": [],
+                "date_last_reviewed": "2024-12-16T14:35:49.004",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:35:49.004",
+                        "result": 1
+                    }
+                ],
                 "count_hint": 0,
                 "count_correct": 0,
-                "level": 0,
+                "level": 4,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {
+                "hsk1.72": 1
+            },
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "good looking",
+        "id": "hsk1.140",
+        "date_added": "2024-12-16T13:20:26.420",
+        "date_last_reviewed_global": "2024-12-16T16:56:57.098",
+        "pinyin": "hao3 kan4",
+        "context": "",
+        "hanzi": "好看",
+        "level_global": 5,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:56:57.098",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:21:31.170",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:17:44.194",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 8,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:25:14.352",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 8,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:43:04.585",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 8,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:56:57.098",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T13:40:08.350",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:40:08.350",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T13:45:59.258",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:45:59.258",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:56:53.605",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:21:16.460",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": true,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:17:37.813",
+                        "result": 0
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:25:08.938",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": true,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:43:00.932",
+                        "result": 0
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 9,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:56:53.605",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 9,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T13:39:57.377",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:39:57.377",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T13:46:07.637",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:46:07.637",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "Doctor",
+        "id": "hsk1.429",
+        "date_added": "2024-12-16T16:52:16.722",
+        "date_last_reviewed_global": "2024-12-16T17:03:40.462",
+        "pinyin": "yi1sheng1",
+        "context": "",
+        "hanzi": "医生",
+        "level_global": 1,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T17:00:40.628",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:59:19.844",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:59:54.548",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:00:40.628",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 1,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T17:01:10.597",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:01:10.597",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 1,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T17:03:36.281",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:03:36.281",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T17:00:35.649",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:59:12.748",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:59:51.901",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:00:35.649",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 2,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T17:01:05.382",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:01:05.382",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 3,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T17:03:40.462",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:03:40.462",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "auxiliary word",
+        "id": "hsk1.269",
+        "date_added": "2024-12-16T13:38:46.712",
+        "date_last_reviewed_global": "2024-12-16T16:53:36.565",
+        "pinyin": "ne",
+        "context": "used at the end of a sentence to ask about something previously mentioned, or to continue a question, for instance, \"What about you?\"",
+        "hanzi": "呢",
+        "level_global": 4,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:53:36.565",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:41:06.637",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:45:13.746",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:48:19.709",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:53:36.565",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:37:10.302",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": true,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:13:06.219",
+                        "result": 0
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:18:15.051",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:37:10.302",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T14:25:24.749",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:25:24.749",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:53:35.186",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:41:02.834",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:45:10.484",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 5,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:48:17.617",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 8,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:53:35.186",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T14:37:05.212",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:12:53.423",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 6,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:18:09.659",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 6,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:37:05.212",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:25:29.091",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:25:29.091",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "where",
+        "id": "hsk1.251",
+        "date_added": "2024-12-16T13:44:37.166",
+        "date_last_reviewed_global": "2024-12-16T16:54:12.468",
+        "pinyin": "na3 li3",
+        "context": "used in general questions about location, often more formal than 哪儿.",
+        "hanzi": "哪里",
+        "level_global": 5,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:54:12.468",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:47:04.878",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:26:07.947",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 5,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 9,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:54:12.468",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 9,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:47:50.307",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:12:38.837",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:47:50.307",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T14:20:37.594",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:20:37.594",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:54:09.354",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T13:46:56.646",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:26:04.449",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 7,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:54:09.354",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T14:47:45.129",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:12:32.807",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 6,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:47:45.129",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:20:44.354",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:20:44.354",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "We",
+        "id": "hsk1.381",
+        "date_added": "2024-12-16T14:34:44.842",
+        "date_last_reviewed_global": "2024-12-16T16:55:50.977",
+        "pinyin": "wo3men",
+        "context": "",
+        "hanzi": "我们",
+        "level_global": 4,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T14:46:55.157",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:35:32.197",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:37:52.398",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:46:55.157",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T16:55:50.977",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:41:14.585",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:55:50.977",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T14:50:24.879",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:43:17.837",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:50:24.879",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T14:46:48.604",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:35:29.409",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:37:48.945",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:46:48.604",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:55:47.471",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:41:11.179",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:55:47.471",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:50:27.309",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:43:20.612",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:50:27.309",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "yes",
+        "id": "hsk1.337",
+        "date_added": "2024-12-16T14:51:27.574",
+        "date_last_reviewed_global": "2024-12-16T16:59:34.495",
+        "pinyin": "shi4",
+        "context": "",
+        "hanzi": "是",
+        "level_global": 5,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:59:34.495",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:52:32.928",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:59:34.495",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T16:55:05.381",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:55:05.381",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:57:13.553",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:57:13.553",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:59:31.736",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:52:29.042",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:59:31.736",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:55:01.883",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:55:01.883",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T16:57:16.777",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:57:16.777",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "no",
+        "id": "hsk1.232",
+        "date_added": "2024-12-16T14:11:52.007",
+        "date_last_reviewed_global": "2024-12-16T16:52:38.814",
+        "pinyin": "mei2",
+        "context": "",
+        "hanzi": "没",
+        "level_global": 4,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:52:38.814",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:18:55.401",
+                        "result": -1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:21:02.407",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:27:22.987",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:41:25.901",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:50:38.791",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:52:38.814",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:27:48.423",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:27:48.423",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T14:35:59.052",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:35:59.052",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:52:36.381",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:18:50.172",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:20:59.667",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": true,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:27:14.047",
+                        "result": 0
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:41:23.222",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 5,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:50:36.449",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 5,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:52:36.381",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T14:27:45.742",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:27:45.742",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:36:02.612",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:36:02.612",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "often",
+        "id": "hsk1.39",
+        "date_added": "2024-12-16T16:52:16.718",
+        "date_last_reviewed_global": "2024-12-16T17:00:16.308",
+        "pinyin": "chang2 chang2",
+        "context": "emphasizes frequent repetition, commonly used as an adverb",
+        "hanzi": "常常",
+        "level_global": 2,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:57:47.046",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:57:47.046",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 2,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T16:58:55.713",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:58:55.713",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T17:00:12.157",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:00:12.157",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:57:43.213",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:57:43.213",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 2,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:58:50.243",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:58:50.243",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T17:00:16.308",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:00:16.308",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "textbook",
+        "id": "hsk1.200",
+        "date_added": "2024-12-16T14:11:52.007",
+        "date_last_reviewed_global": "2024-12-16T17:04:05.661",
+        "pinyin": "ke4 ben3",
+        "context": "",
+        "hanzi": "课本",
+        "level_global": 5,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:52:58.591",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:15:06.834",
+                        "result": -1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:20:17.476",
+                        "result": -1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:21:31.677",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:26:39.884",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:49:07.203",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:52:58.591",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:28:39.084",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 5,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:28:39.084",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 5,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T17:03:57.877",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:36:26.965",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:03:57.877",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:52:54.987",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:14:45.808",
+                        "result": -1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": true,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:20:05.803",
+                        "result": 0
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:21:26.459",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:26:36.451",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:48:58.200",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:52:54.987",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T14:28:30.809",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:28:30.809",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T17:04:05.661",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:36:34.890",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 9,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:04:05.661",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 9,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "on the ground",
+        "id": "hsk1.72",
+        "date_added": "2024-12-16T14:34:44.839",
+        "date_last_reviewed_global": "2024-12-16T16:55:27.721",
+        "pinyin": "di4 shang4",
+        "context": "",
+        "hanzi": "地上",
+        "level_global": 3,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T14:48:38.975",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 1,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:38:05.075",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 1,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:48:38.975",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 4,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T14:41:47.750",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:41:47.750",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 3,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:55:22.332",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:42:09.421",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:55:22.332",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T14:48:35.660",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:38:01.904",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:48:35.660",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 3,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T14:41:42.914",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:41:42.914",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 3,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T16:55:27.721",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:42:13.672",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 6,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:55:27.721",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 6,
+                "count_incorrect": 0
+            }
+        }
+    },
+    {
+        "correlation_errors": {
+            "Hanzi": {},
+            "Pinyin": {},
+            "Translation": {}
+        },
+        "translation": "word, character",
+        "id": "hsk1.488",
+        "date_added": "2024-12-16T14:46:26.807",
+        "date_last_reviewed_global": "2024-12-16T17:03:22.237",
+        "pinyin": "zi4",
+        "context": "",
+        "hanzi": "字",
+        "level_global": 7,
+        "stats": {
+            "Translation -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T17:03:22.237",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 4,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:50:49.571",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 4,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:03:22.237",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Translation": {
+                "date_last_reviewed": "2024-12-16T16:54:42.549",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 2,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:52:10.170",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 2,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 9,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:54:42.549",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 9,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Pinyin": {
+                "date_last_reviewed": "2024-12-16T16:53:09.259",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 8,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:53:09.259",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 8,
+                "count_incorrect": 0
+            },
+            "Translation -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T17:03:18.903",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 3,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:50:46.559",
+                        "result": 1
+                    },
+                    {
+                        "level_old": 3,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 9,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T17:03:18.903",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 9,
+                "count_incorrect": 0
+            },
+            "Pinyin -> Hanzi": {
+                "date_last_reviewed": "2024-12-16T16:54:36.487",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 0,
+                        "hint_used": true,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T14:52:04.984",
+                        "result": 0
+                    },
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 7,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:54:36.487",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 7,
+                "count_incorrect": 0
+            },
+            "Hanzi -> Translation": {
+                "date_last_reviewed": "2024-12-16T16:53:13.438",
+                "review_history": [
+                    {
+                        "level_old": 0,
+                        "time_interval_minutes": 0.0,
+                        "time_reaction_seconds": 0.0,
+                        "priority": 0.0,
+                        "level_new": 9,
+                        "hint_used": false,
+                        "memory_strength": 1.0,
+                        "date_reviewed": "2024-12-16T16:53:13.438",
+                        "result": 1
+                    }
+                ],
+                "count_hint": 0,
+                "count_correct": 0,
+                "level": 9,
                 "count_incorrect": 0
             }
         }

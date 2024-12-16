@@ -5,7 +5,6 @@ duo.3 | 亚洲 | ya4 zhou1 | Asia
 duo.4 | 哎呀 | ai1 ya1 | interjection of wonder, shock or admiration
 duo.5 | 公寓 | gong1 yu4 | apartment building; block of flats
 duo.6 | 意大利 | yi4 da4 li4 | Italy
-SKIP
 hsk1.4 | 爸爸/爸 | bàba / bà | dad
 hsk1.5 | 吧 | ba | (interjection particle)
 hsk1.8 | 百 | bǎi | hundred
@@ -228,6 +227,7 @@ hsk1.488 | 字 | zì | word, character
 hsk1.489 | 子（桌子） | zi （zhuō zi） | noun suffix (table)
 hsk1.498 | 坐 | zuò | sit
 hsk1.499 | 坐下 | zuò xià | sit down
+SKIP
 hsk2.35 | 不要 | bú yào | don’t
 hsk2.41 | 不同 | bù tóng | different
 hsk2.42 | 不行 | bù xíng | no way; be out of the question
@@ -577,6 +577,7 @@ hsk6.1041 | 站台 | zhàn tái | platform; railway platform
 hsk6.1043 | 长（秘书长） | zhǎng （mì shū zhǎng） | chief; head; leader (secretary general)
 hsk6.1091 | 粥 | zhōu | Porridge
 SKIP
+STOP
 # HSK1 3.0
 hsk1.1 | 爱 | ài | love
 hsk1.2 | 爱好 | ài hào | hobby
