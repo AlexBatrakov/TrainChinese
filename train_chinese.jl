@@ -1,15 +1,15 @@
 using Dates
 using JSON
 using Statistics
-using Random  # Подключаем модуль для работы с функцией shuffle
+using Random  # Used for shuffle/random sampling
 using Printf
 using PyPlot
 using StatsBase
 
 @enum AttributeType begin
-    Hanzi         # Иероглиф
-    Pinyin        # Пиньинь
-    Translation   # Перевод
+    Hanzi         # Hanzi (Chinese characters)
+    Pinyin        # Pinyin
+    Translation   # Translation
 end
 
 function parse_attribute_type(str::String)::Union{AttributeType, Nothing}
@@ -31,7 +31,7 @@ struct RewievInfo
     level_new::Int64
 end
 
-# Конструктор с ключевыми аргументами
+# Keyword-argument constructor
 function RewievInfo(; date_reviewed=now(),
     time_interval_minutes=0.0,
     time_reaction_seconds=0.0,
@@ -46,27 +46,27 @@ function RewievInfo(; date_reviewed=now(),
 end
 
 mutable struct WordStats
-    level::Int                         # Уровень изученности для этого задания
-    date_last_reviewed::DateTime       # Время последнего повторения для этого задания
-    count_correct::Int                 # Количество правильных ответов для этого задания
-    count_hint::Int                    # Количество ответов с подсказкой для этого задания
-    count_incorrect::Int               # Количество неправильных ответов для этого задания
-    review_history::Vector{RewievInfo} # История повторений
+    level::Int                         # Learning level for this task
+    date_last_reviewed::DateTime       # Last review time for this task
+    count_correct::Int                 # Number of correct answers for this task
+    count_hint::Int                    # Number of answers with a hint for this task
+    count_incorrect::Int               # Number of incorrect answers for this task
+    review_history::Vector{RewievInfo} # Review history
 end
 
 WordStats() = WordStats(0, now(), 0, 0, 0, Vector{RewievInfo}())
 
 mutable struct Word
-    id::String                          # Уникальный идентификатор слова (например, "hsk1.98", "duo.7" или "hsk3.487.a")
-    hanzi::String                       # Иероглифы
-    pinyin::String                      # Пиньинь (с цифровыми тонами)
-    translation::String                 # Перевод
-    context::String                     # Контекст (опционально, для уточнения значения)
-    date_added::DateTime                # Время добаления слова
-    date_last_reviewed_global::DateTime # Глобальное время с последнего повторения
-    level_global::Int64                 # Глобальный уровень
-    stats::Dict{Tuple{AttributeType, AttributeType}, WordStats} # Статистика для каждой подзадачи
-    correlation_errors::Dict{AttributeType, Dict{String, Int64}}    # Ошибки, связанные с другими словами (ключи: Hanzi, Pinyin, Translation)
+    id::String                          # Unique word ID (e.g. "hsk1.98", "duo.7", or "hsk3.487.a")
+    hanzi::String                       # Hanzi
+    pinyin::String                      # Pinyin (with tone numbers)
+    translation::String                 # Translation
+    context::String                     # Optional context for disambiguation
+    date_added::DateTime                # Time when the word was added
+    date_last_reviewed_global::DateTime # Global time since last review
+    level_global::Int64                 # Global level
+    stats::Dict{Tuple{AttributeType, AttributeType}, WordStats} # Per-task stats
+    correlation_errors::Dict{AttributeType, Dict{String, Int64}}    # Correlation errors with other words (keys: Hanzi, Pinyin, Translation)
 end
 
 Word(id, hanzi, pinyin, translation, context) = 
@@ -86,68 +86,70 @@ Word(id, hanzi, pinyin, translation, context) =
     )
 
 function calculate_priority(level::Int, date_last_reviewed::DateTime)::Float64
-    t = now() - date_last_reviewed  # Время с последнего повторения
-    p = 2^level                # Период полураспада зависит от уровня
-    priority = (t / Minute(1)) / p  # Приоритет: время / период полураспада
+    t = now() - date_last_reviewed  # Time since last review
+    p = 2^level                     # Half-life period depends on level
+    priority = (t / Minute(1)) / p  # Priority: time / half-life period
     return priority
 end
     
 function calculate_memory_strength(level::Int, date_last_reviewed::DateTime)::Float64
+    C = 1.0887147152069994
     priority = calculate_priority(level, date_last_reviewed)
-    return exp2(-priority)
+    return exp2(-C * priority)
 end
 
-function update_level(word_stats::WordStats, result::Int)
-    old_level = word_stats.level
+function calculate_new_level(word_stats::WordStats, result::Int)
+    level_old = word_stats.level
     date_last_reviewed = word_stats.date_last_reviewed
 
-    priority = calculate_priority(old_level, date_last_reviewed)
-    memory_strength = calculate_memory_strength(old_level, date_last_reviewed)
-    new_level = old_level
+    # priority = calculate_priority(level_old, date_last_reviewed)
+    memory_strength = calculate_memory_strength(level_old, date_last_reviewed)
+    level_new = level_old
 
-    if result == 1  # Успешное воспоминание
+    if result == 1  # Successful recall
         transition_probability = 1 - memory_strength
         while rand() < transition_probability
-            new_level += 1
-            corrected_memory_strength = calculate_memory_strength(new_level, date_last_reviewed)
+            level_new += 1
+            corrected_memory_strength = calculate_memory_strength(level_new, date_last_reviewed)
             transition_probability = 1 - corrected_memory_strength
         end
-    elseif result == -1  # Неудачное воспоминание
+    elseif result == -1  # Failed recall
         transition_probability = memory_strength
-        while rand() < transition_probability && new_level > 1
-            new_level -= 1
-            corrected_memory_strength = calculate_memory_strength(new_level, date_last_reviewed)
+        while rand() < transition_probability && level_new > 1
+            level_new -= 1
+            corrected_memory_strength = calculate_memory_strength(level_new, date_last_reviewed)
             transition_probability = corrected_memory_strength
         end
     end
 
-    word_stats.level = new_level
-    word_stats.date_last_reviewed = now()  # Обновляем время последнего повторения
-
-    return old_level, new_level
+    return level_new
 end
 
 function update_word_stats(word::Word, task_type::Tuple{AttributeType, AttributeType}, result::Int)
     word_stats = word.stats[task_type]
 
-    # Обновление уровня
-    old_level, new_level = update_level(word_stats, result)
+    level_old = word_stats.level
+    # Compute new level
+    level_new = calculate_new_level(word_stats, result)
 
-    # Рассчет времени с последнего повторения
+    # Compute time since last review
     time_interval_minutes = (now() - word_stats.date_last_reviewed) / Minute(1)
 
-    # Добавление записи в историю
+    # Add entry to history
     push!(word_stats.review_history, RewievInfo(
         date_reviewed = now(),
         time_interval_minutes = time_interval_minutes,
-        time_reaction_seconds = 0.0,  # Пока без учета времени реакции
-        priority = calculate_priority(new_level, now()),
-        memory_strength = calculate_memory_strength(new_level, now()),
+        time_reaction_seconds = 0.0,  # Reaction time is not tracked yet
+        priority = calculate_priority(level_old, word_stats.date_last_reviewed),
+        memory_strength = calculate_memory_strength(level_new, word_stats.date_last_reviewed),
         hint_used = (result == 0),
         result = result,
-        level_old = old_level,
-        level_new = new_level
+        level_old = level_old,
+        level_new = level_new
     ))
+
+    word_stats.level = level_new # Update level
+    word_stats.date_last_reviewed = now()  # Update last review time
 end
 
 function update_global_stats(word::Word)
@@ -157,32 +159,32 @@ function update_global_stats(word::Word)
 end
 
 function update_word(word::Word, task_type::Tuple{AttributeType, AttributeType}, result::Int)
-    # Обновляем статистику для конкретного задания
+    # Update per-task stats
     update_word_stats(word, task_type, result)
 
-    # Обновляем глобальную статистику слова
+    # Update global stats
     update_global_stats(word)
 end
 
 struct WordPool
-    known_words::Dict{String, Word}   # Слова, которые уже учатся
-    new_words::Dict{String, Word}     # Слова, которые еще не изучались
+    known_words::Dict{String, Word}   # Words currently being learned
+    new_words::Dict{String, Word}     # Words not studied yet
 end
 
 WordPool() = WordPool(Dict{String, Word}(), Dict{String, Word}())
 
 struct TrainingParams
-    max_ephemeral_words::Int  # Максимальное количество слов в группе "ephemeral"
-    max_fleeting_words::Int   # Максимальное количество слов в группах "ephemeral" + "fleeting"
-    max_total_words::Int      # Максимальное общее количество слов в пуле для повторения
+    max_ephemeral_words::Int  # Maximum number of words in the "ephemeral" group
+    max_fleeting_words::Int   # Maximum number of words in "ephemeral" + "fleeting"
+    max_total_words::Int      # Maximum total number of words eligible for review
 end
 
-# Добавляем конструктор с ключевыми словами
+# Keyword-argument constructor
 function TrainingParams(; max_ephemeral_words::Int=5, max_fleeting_words::Int=20, max_total_words::Int=50)
     return TrainingParams(max_ephemeral_words, max_fleeting_words, max_total_words)
 end
 
-# Функция для изменения цвета текста
+# Change terminal text color
 function colored_text(text::String, color::Symbol)
     colors = Dict(
         :red => "\x1b[31m",
@@ -195,19 +197,19 @@ function colored_text(text::String, color::Symbol)
 end
 
 tone_map = Dict(
-    # Финали группы 1: a, ai, an, ang, ao
+    # Finals group 1: a, ai, an, ang, ao
     "ā" => "a1", "á" => "a2", "ǎ" => "a3", "à" => "a4",
     "āi" => "ai1", "ái" => "ai2", "ǎi" => "ai3", "ài" => "ai4",
     "ān" => "an1", "án" => "an2", "ǎn" => "an3", "àn" => "an4",
     "āng" => "ang1", "áng" => "ang2", "ǎng" => "ang3", "àng" => "ang4",
     "āo" => "ao1", "áo" => "ao2", "ǎo" => "ao3", "ào" => "ao4",
-    # Финали группы 2: e, ei, en, eng, er
+    # Finals group 2: e, ei, en, eng, er
     "ē" => "e1", "é" => "e2", "ě" => "e3", "è" => "e4",
     "ēi" => "ei1", "éi" => "ei2", "ěi" => "ei3", "èi" => "ei4",
     "ēn" => "en1", "én" => "en2", "ěn" => "en3", "èn" => "en4",
     "ēng" => "eng1", "éng" => "eng2", "ěng" => "eng3", "èng" => "eng4",
     "ēr" => "er1", "ér" => "er2", "ěr" => "er3", "èr" => "er4",
-    # Финали группы 3: i, ia, ian, iang, iao, ie, in, ing, iong
+    # Finals group 3: i, ia, ian, iang, iao, ie, in, ing, iong
     "ī" => "i1", "í" => "i2", "ǐ" => "i3", "ì" => "i4",
     "iā" => "ia1", "iá" => "ia2", "iǎ" => "ia3", "ià" => "ia4",
     "iān" => "ian1", "ián" => "ian2", "iǎn" => "ian3", "iàn" => "ian4",
@@ -219,11 +221,11 @@ tone_map = Dict(
     "īn" => "in1", "ín" => "in2", "ǐn" => "in3", "ìn" => "in4",
     "īng" => "ing1", "íng" => "ing2", "ǐng" => "ing3", "ìng" => "ing4",
     "iōng" => "iong1", "ióng" => "iong2", "ǐong" => "iong3", "iòng" => "iong4",
-    # Финали группы 4: o, ong, ou
+    # Finals group 4: o, ong, ou
     "ō" => "o1", "ó" => "o2", "ǒ" => "o3", "ò" => "o4",
     "ōng" => "ong1", "óng" => "ong2", "ǒng" => "ong3", "òng" => "ong4",
     "ōu" => "ou1", "óu" => "ou2", "ǒu" => "ou3", "òu" => "ou4",
-    # Финали группы 5: u, ua, uai, uan, uang, ue, ui, un, uo
+    # Finals group 5: u, ua, uai, uan, uang, ue, ui, un, uo
     "ū" => "u1", "ú" => "u2", "ǔ" => "u3", "ù" => "u4",
     "ūa" => "ua1", "úa" => "ua2", "ǔa" => "ua3", "ùa" => "ua4",
     "ūai" => "uai1", "úai" => "uai2", "ǔai" => "uai3", "ùai" => "uai4",
@@ -233,7 +235,7 @@ tone_map = Dict(
     "ūi" => "ui1", "úi" => "ui2", "ǔi" => "ui3", "ùi" => "ui4",
     "ūn" => "un1", "ún" => "un2", "ǔn" => "un3", "ùn" => "un4",
     "ūo" => "uo1", "úo" => "uo2", "ǔo" => "uo3", "ùo" => "uo4",
-    # Финали группы 6: ü, üe, üan, ün с четырьмя тонами и нейтральным тоном (ü заменено на v)
+    # Finals group 6: ü, üe, üan, ün (with 4 tones + neutral; ü is represented as v)
     "ǖ" => "v1", "ǘ" => "v2", "ǚ" => "v3", "ǜ" => "v4", "ü" => "v",
     "ǖe" => "ve1", "ǘe" => "ve2", "ǚe" => "ve3", "ǜe" => "ve4", "üe" => "ve",
     "ǖan" => "van1", "ǘan" => "van2", "ǚan" => "van3", "ǜan" => "van4", "üan" => "van",
@@ -242,7 +244,7 @@ tone_map = Dict(
 )
 
 function convert_pinyin_string(pinyin_text::String, tone_map::Dict{String, String})::String
-    # Сортируем финали по убыванию длины для поиска более длинных финалей в первую очередь
+    # Sort finals by descending length so longer finals match first
     sorted_finals = sort(collect(keys(tone_map)), by = x -> -length(x))
 
     result = ""
@@ -252,13 +254,13 @@ function convert_pinyin_string(pinyin_text::String, tone_map::Dict{String, Strin
     while i <= lastindex(pinyin_text)
         match_found = false
 
-        # Проверяем финали по списку, начиная с самой длинной
+        # Try to match finals, starting from the longest
         for final in sorted_finals
             final_length = length(final)
             end_index = i
             valid = true
 
-            # Безопасно продвигаем индекс вперед на длину финали
+            # Safely advance the index by the final length
             for _ in 1:final_length - 1
                 if end_index < lastindex(pinyin_text)
                     end_index = nextind(pinyin_text, end_index)
@@ -268,42 +270,42 @@ function convert_pinyin_string(pinyin_text::String, tone_map::Dict{String, Strin
                 end
             end
 
-            # Проверяем, что подстрока соответствует финали
+            # Check that the substring matches the final
             if valid && end_index <= lastindex(pinyin_text) &&
                pinyin_text[i:end_index] == final
                 match_found = true
                 current_word *= tone_map[final]
-                i = nextind(pinyin_text, end_index)  # Переходим на следующий индекс после финали
+                i = nextind(pinyin_text, end_index)  # Move to the next index after the final
                 break
             end
         end
 
-        # Если совпадение не найдено, добавляем текущий символ и идем дальше
+        # If no match, append the current character and move on
         if !match_found
             current_word *= pinyin_text[i]
             if i < lastindex(pinyin_text)
-                i = nextind(pinyin_text, i)  # Переходим к следующему символу
+                i = nextind(pinyin_text, i)  # Move to the next character
             else
-                i += 1  # Завершаем обработку строки, не выходя за границы
+                i += 1  # Finish processing without going out of bounds
             end
         end
 
-        # Проверяем, если текущий символ пробел, заканчиваем текущий слог
+        # If we hit a space, end the current syllable
         if i > lastindex(pinyin_text) || (i <= lastindex(pinyin_text) && pinyin_text[i] == ' ')
             result *= current_word
             if i <= lastindex(pinyin_text)
-                result *= " "  # Добавляем пробел, если он есть
+                result *= " "  # Preserve the space
             end
             current_word = ""
             if i < lastindex(pinyin_text)
                 i = nextind(pinyin_text, i)
             else
-                i += 1  # Завершаем обработку строки
+                i += 1  # Finish processing
             end
         end
     end
 
-    # Добавляем последний оставшийся слог, если он есть
+    # Append the last remaining syllable, if any
     result *= current_word
 
     return result
@@ -311,18 +313,18 @@ end
 
 duolingo_list = ["水", "咖", "啡", "和", "茶", "米", "饭", "这", "是", "汤", "冰", "你", "的", "粥", "豆", "腐", "热", "英", "国", "美", "中", "人", "我", "好", "意", "大", "利", "呢", "文", "医", "生", "老", "师", "服", "务", "员", "对", "不", "说", "律", "学", "喜", "欢", "日", "本", "汉", "堡", "包", "菜", "音", "乐", "数", "课", "上", "网", "唱", "歌", "跑", "爸", "婆", "很", "高", "兴", "认", "识", "加", "拿", "她", "妈", "公", "旅", "行", "儿", "子", "他", "习", "也", "真", "吗", "女", "馆", "去", "书", "店", "超", "市", "吃", "口", "韩", "常", "亚", "洲", "买", "零", "食", "看", "谢", "杯", "要", "牛", "奶", "两", "绿", "客", "气", "李", "里", "在", "钱", "哪", "洗", "手", "间", "火", "车", "站", "机", "票", "第", "一", "二", "台", "个", "同", "新", "有", "叫", "什", "么", "名", "字", "丽", "节", "四", "今", "天", "都", "历", "史", "们", "打", "篮", "球", "还", "喝", "想", "明", "电", "影", "院", "园", "吧", "图", "书", "馆", "下", "午", "见", "果", "步", "哎", "呀", "房", "厅", "寓", "小", "漂", "亮", "厨", "发", "舒", "床", "空", "调", "没", "视", "月", "会", "北", "京", "飞", "怎", "坐", "场", "远", "出", "租", "地", "铁", "故", "长", "城", "交", "便", "宜", "件", "毛", "衣", "冷", "样", "那", "点", "克", "裤", "条", "短", "百", "贵", "元"]
 
-# Функция для произношения текста на macOS с использованием голоса Tingting
+# macOS text-to-speech helper (default voice: Tingting)
 function say_text(text::String, voice::String = "Tingting")
-    # Добавляем паузы перед и после текста
-    padded_text = "[[slnc 100]] $(text) [[slnc 100]]" # 100 мс пауза перед и после текста
+    # Add short pauses before and after the text
+    padded_text = "[[slnc 100]] $(text) [[slnc 100]]" # 100ms pause before and after
     try
         run(`say -v $(voice) $(padded_text)`)
     catch e
-        println("Ошибка: голос $(voice) не найден. Попробуй другой голос.")
+        println("Error: voice $(voice) not found. Try a different voice.")
     end
 end
 
-# Функция для произношения текста на macOS с использованием голоса Tingting
+# macOS text-to-speech for a word (handles a few ambiguity edge cases)
 function say_word(word::Word, voice::String = "Tingting")
     text = deepcopy(word.hanzi)
     pinyin = word.pinyin
@@ -368,12 +370,12 @@ function say_word(word::Word, voice::String = "Tingting")
     elseif text == "蒙" && pinyin == "meng1"
         text == text
     end
-    # Добавляем паузы перед и после текста
-    padded_text = "[[slnc 100]] $(text) [[slnc 100]]" # 100 мс пауза перед и после текста
+    # Add short pauses before and after the text
+    padded_text = "[[slnc 100]] $(text) [[slnc 100]]" # 100ms pause before and after
     try
         run(`say -v $(voice) $(padded_text)`)
     catch e
-        println("Ошибка: голос $(voice) не найден. Попробуй другой голос.")
+        println("Error: voice $(voice) not found. Try a different voice.")
     end
 end
 
@@ -394,7 +396,7 @@ function update_word_pool_from_file!(pool::WordPool, filename::String)
     # duolingo_mode2 = false
     # duolingo_mask = ones(Bool, length(duolingo_list))
     skip_key = false
-    # Открытие файла и чтение построчно
+    # Open the file and read line by line
     count_repeate_translation = 0
     open(filename, "r") do file
         for line in eachline(file)
@@ -409,7 +411,7 @@ function update_word_pool_from_file!(pool::WordPool, filename::String)
                 continue
             end
 
-            # Разделение строки на ханци, пиньинь и перевод
+            # Split the line into hanzi, pinyin, translation (and optional context)
             parts = split(line, " | ")
             if (length(parts) == 4 || length(parts) == 5)
                 context = ""
@@ -444,35 +446,35 @@ function update_word_pool_from_file!(pool::WordPool, filename::String)
                 context = (context == "") ? (hanzi_context) : (hanzi_context == "" ? context : hanzi_context * " " * context)
                 pinyin = convert_pinyin_string(String(pinyin), tone_map)
 
-                # Проверяем, существует ли уже это слово в пуле известных слов
+                # Check whether the word already exists in the known pool
                 is_known_word = haskey(pool.known_words, id)
 
                 if is_known_word == false
-                    # Если слово новое, добавляем его в пул новых слов
+                    # New word: add it to the new-words pool
                     new_word = Word(id, hanzi, pinyin, translation, context)
                     pool.new_words[id] = new_word
                 else
-                    # println("Повторяющееся слово: ", hanzi)
-                    # Обновляем информацию об уже известном слове 
+                    # println("Duplicate word: ", hanzi)
+                    # Existing word: update metadata if needed
                     existing_word = pool.known_words[id]
                     if existing_word.context != context
-                        println("Обновленный контекст для слова $hanzi: ", context)
+                        println("Updated context for word $hanzi: ", context)
                         pool.known_words[id].context = context
                     end
                 end
             else
-                println("Неправильный формат строки: ", line)
+                println("Invalid line format: ", line)
             end
         end
     end
-    # println("Слов с повторяющимся переводом: ", count_repeate_translation)
+    # println("Words with duplicate translation: ", count_repeate_translation)
     # if duolingo_mode2 == true
     #     println(duolingo_list[duolingo_mask])
     # end
-    println(colored_text("Пул слов обновлен из файла $filename", :blue))
+    println(colored_text("Word pool updated from file $filename", :blue))
 end
 
-# Преобразование строки в Tuple{AttributeType, AttributeType}
+# Convert a string to Tuple{AttributeType, AttributeType}
 function string_to_task_tuple(task_str::String)::Tuple{AttributeType, AttributeType}
     parts = split(task_str, " -> ")
     if length(parts) == 2
@@ -482,10 +484,10 @@ function string_to_task_tuple(task_str::String)::Tuple{AttributeType, AttributeT
             return (attr1, attr2)
         end
     end
-    error("Некорректный формат строки задачи: $task_str")
+    error("Invalid task string format: $task_str")
 end
 
-# Преобразование Tuple{AttributeType, AttributeType} в строку
+# Convert Tuple{AttributeType, AttributeType} to string
 function task_tuple_to_string(task::Tuple{AttributeType, AttributeType})::String
     return string(task[1]) * " -> " * string(task[2])
 end
@@ -529,32 +531,32 @@ function save_words_to_file(words::Dict{String, Word}, filename::String)
         ) for w in values(words)
     ]
 
-    # Генерация форматированного JSON текста
+    # Generate pretty JSON
     pretty_json = JSON.json(data, 4)
 
-    # Запись в файл
+    # Write to file
     open(filename, "w") do file
         write(file, pretty_json)
     end
 
-    println("Данные успешно сохранены в файл $filename")
+    println("Data saved successfully to file $filename")
 end
 
 function load_words_from_file(filename::String)::Dict{String, Word}
     try
-        # Загружаем данные из JSON файла
+        # Load data from JSON
         data = JSON.parsefile(filename)
 
-        # Преобразуем данные в словарь {String, Word}
+        # Convert data into Dict{String, Word}
         words = Dict{String, Word}()
         for d in data
-            # Создаём объект Word из словаря
+            # Build Word from a dictionary
             word = Word(
                 d["id"],
                 d["hanzi"],
                 d["pinyin"],
                 d["translation"],
-                get(d, "context", ""),  # Контекст может быть пустым
+                get(d, "context", ""),  # Context can be empty
                 DateTime(d["date_added"]),
                 DateTime(d["date_last_reviewed_global"]),
                 d["level_global"],
@@ -584,57 +586,60 @@ function load_words_from_file(filename::String)::Dict{String, Word}
                     parse_attribute_type(attr) => Dict{String, Int64}(errors) for (attr, errors) in d["correlation_errors"]
                 )
             )
-            # Добавляем слово в словарь
+            # Add word to dictionary
             words[word.id] = word
         end
         return words
     catch e
-        println("Ошибка при загрузке файла: ", e)
-        return Dict{String, Word}()  # Возвращаем пустой словарь при ошибке
+        println("Error loading file: ", e)
+        return Dict{String, Word}()  # Return empty dictionary on error
     end
 end
 
 function save_stats_to_file(known_words::Dict{String, Word}, filename::String)
-    # Открытие файла для записи
+    # Open file for writing
     open(filename, "w") do file
-        # Добавляем заголовки столбцов
+        # Add column headers
         header = @sprintf("%-10s %-20s %-50s %-4s\t %-4s\t %-4s\t %-4s\t %-4s\t %-4s\t%-4s\t%-4s\t",
                           "Hanzi", "Pinyin", "Translation", "h->p", "h->t", "p->h", "p->t", "t->h", "t->p", "mean", "min")
         write(file, header * "\n")
 
-        for word in values(known_words)
-            # Формируем строку с информацией о слове
+        words = collect(values(known_words))
+        sorted_words = sort(words, by = w -> w.date_added)
+
+        for word in sorted_words
+            # Format a line with word info
             line = @sprintf("%-10s %-20s %-50s", word.hanzi, word.pinyin, word.translation)
 
-            # Извлекаем уровни для подзадач
+            # Extract per-task levels
             levels = [word.stats[(attribute2, attribute1)].level 
                       for attribute1 in instances(AttributeType), 
                           attribute2 in instances(AttributeType) 
                           if attribute1 != attribute2]
 
-            # Рассчитываем средний и минимальный уровни
+            # Compute mean and minimum levels
             mean_level = mean(levels)
             min_level = minimum(levels)
 
-            # Форматируем уровни в одну строку, добавляя разделитель табуляции для выравнивания
+            # Render levels as a tab-separated string
             level_str = join([@sprintf("%4d", l) for l in levels], "\t")
             mean_level_str = @sprintf("%4.1f", mean_level)
             min_level_str = @sprintf("%4d", min_level)
 
-            # Формируем полную строку
+            # Build the full line
             line *= level_str * "\t" * mean_level_str * "\t" * min_level_str
 
-            # Записываем строку в файл
+            # Write line to file
             write(file, line * "\n")
         end
     end
 
-    println(colored_text("Данные успешно сохранены в файл $filename", :blue))
+    println(colored_text("Data saved successfully to file $filename", :blue))
 end
 
-# Функция для точного поиска слова
+# Exact word match helper
 function contains_exact_word(keyword::String, text::String)::Bool
-    words = split(text, r"\W+")  # Разделяем текст на слова (учитывая знаки препинания)
+    words = split(text, r"\W+")  # Split into words (taking punctuation into account)
     return lowercase(keyword) in lowercase.(words)
 end
 
@@ -645,7 +650,7 @@ function find_words_by_keywords(keywords::String, pool::WordPool; max_results::I
 
     matching_words = Vector{Tuple{String, Word}}()
 
-    # Поиск совпадений в переводе и контексте
+    # Search matches in translation and context
     for word in values(pool.known_words)
         translation_match = all(kw -> contains_exact_word(String(kw), word.translation), translation_keywords)
         context_match = all(kw -> contains_exact_word(String(kw), word.context), context_keywords)
@@ -655,75 +660,85 @@ function find_words_by_keywords(keywords::String, pool::WordPool; max_results::I
         end
     end
 
-    # Сортировка по длине перевода
+    # Sort by translation length
     sort!(matching_words, by = x -> length(x[1]))
 
     # for i in 1:length(matching_words)
     #     println(matching_words[i][1])
     # end
 
-    # Возвращаем первые max_results
+    # Return first max_results
     return matching_words[1:min(max_results, length(matching_words))]
 end
 
 function record_correlation_error(word::Word, attribute_type::AttributeType, input::String, pool::WordPool)
     if attribute_type == Translation
-        # Для Translation `input` — это ID неверного слова
+        # For Translation, `input` is the wrong word ID
         if !haskey(word.correlation_errors[attribute_type], input)
             word.correlation_errors[attribute_type][input] = 0
         end
         word.correlation_errors[attribute_type][input] += 1
-        println("Ошибка корреляции (Translation): добавлено совпадение с ID $input для атрибута $attribute_type.")
+        println("Correlation error (Translation): recorded match with ID $input for attribute $attribute_type.")
     else
-        # Для Hanzi и Pinyin `input` — строка (иероглиф или пиньинь)
+        # For Hanzi and Pinyin, `input` is a string (hanzi or pinyin)
         for candidate_word in values(pool.known_words)
-            if candidate_word.id != word.id  # Исключаем текущее слово
+            if candidate_word.id != word.id  # Exclude the current word
                 if (attribute_type == Hanzi && candidate_word.hanzi == input) || (attribute_type == Pinyin && compare_pinyin(input, candidate_word.pinyin))
-                    # Обновляем корреляцию
+                    # Update correlation
                     if !haskey(word.correlation_errors[attribute_type], candidate_word.id)
                         word.correlation_errors[attribute_type][candidate_word.id] = 0
                     end
                     word.correlation_errors[attribute_type][candidate_word.id] += 1
-                    println("Ошибка корреляции (Hanzi/Pinyin): добавлено совпадение с ID $(candidate_word.id) для атрибута $(attribute_type).")
-                    return  # Предполагаем, что одно значение `input` может совпадать только с одним словом
+                    println("Correlation error (Hanzi/Pinyin): recorded match with ID $(candidate_word.id) for attribute $(attribute_type).")
+                    return  # Assume one `input` value can match at most one word
                 end
             end
         end
-        # println("Ошибка корреляции: соответствий для значения '$input' не найдено.")
+        # println("Correlation error: no matches found for value '$input'.")
     end
 end
 
 function task_hanzi(word::Word, pool::WordPool)
-    println("\nЗадание: Нарисуйте иероглиф. Введите его с помощью китайской клавиатуры.")
+    println("\nTask: Write the character. Enter it using a Chinese keyboard.")
     
-    # Переменная для хранения попыток
+    # Attempt counter
     attempts = 0
     
-    while attempts < 2
+    while attempts < 3
         attempts += 1
-        println("Введите иероглиф:")
+        println("Enter hanzi:")
+
+        if attempts == 3
+            println("Hint: $(word.hanzi)")
+        end
+
         run(`osascript -e 'tell application "System Events" to key code 49 using {shift down, control down}'`)
         user_input = readline()
         run(`osascript -e 'tell application "System Events" to key code 49 using {shift down, control down}'`)
 
         if user_input == word.hanzi
             if attempts == 1
-                println(colored_text("Правильно с первой попытки!", :green))
+                println(colored_text("Correct on the first try!", :green))
                 return 1
-            else
-                println(colored_text("Правильно со второй попытки!", :yellow))
+            elseif attempts == 2
+                println(colored_text("Correct on the second try!", :yellow))
                 return 0
+            else
+                println(colored_text("Correct on the third try!", :yellow))
+                return -1
             end
         else
-            println(colored_text("Неправильно. Попробуйте ещё раз.", :red))
-            # Сохранение корреляции для неправильного ответа
+            if attempts < 2
+                println(colored_text("Incorrect. Try again.", :red))
+            end
+            # Store correlation for an incorrect answer
             record_correlation_error(word, Hanzi, user_input, pool)
         end
     end
 
-    # Если после двух попыток ответ неверный
-    println(colored_text("Ответ неверный.", :yellow))
-    println(colored_text("Правильный иероглиф: $(word.hanzi)", :green))
+    # If the answer is still wrong after the attempts
+    println(colored_text("Incorrect.", :yellow))
+    println(colored_text("Correct hanzi: $(word.hanzi)", :green))
     return -1
 end
 
@@ -734,112 +749,123 @@ function compare_pinyin(user_input::String, pinyin::String)
 end
 
 function task_pinyin(word::Word, pool::WordPool; sound=false)
-    println("\nЗадание: Введите пиньинь с тонами (например, ni3 hao3).")
+    println("\nTask: Enter pinyin with tones (e.g. ni3 hao3).")
     
-    # Переменная для хранения попыток
+    # Attempt counter
     attempts = 0
     
-    while attempts < 2
+    while attempts < 3
         attempts += 1
+
+        if attempts == 3
+            sound = true
+        end
+
         if sound
             say_text(word.hanzi)
         end
-        println("Введите пиньинь:")
+
+        println("Enter pinyin:")
         user_input = readline()
 
         if compare_pinyin(user_input, word.pinyin)
             if attempts == 1
-                println(colored_text("Правильно с первой попытки!", :green))
+                println(colored_text("Correct on the first try!", :green))
                 return 1
-            else
-                println(colored_text("Правильно со второй попытки!", :yellow))
+            elseif attempts == 2
+                println(colored_text("Correct on the second try!", :yellow))
                 return 0
+            else
+                println(colored_text("Correct on the third try!", :yellow))
+                return -1
             end
         else
-            println(colored_text("Неправильно. Попробуйте ещё раз.", :red))
-            # Сохранение корреляции для неправильного ответа
+            if attempts < 2
+                println(colored_text("Incorrect. Try again.", :red))
+            end
+            # Store correlation for an incorrect answer
             record_correlation_error(word, Pinyin, user_input, pool)
         end
     end
 
-    # Если после двух попыток ответ неверный
-    println(colored_text("Ответ неверный.", :yellow))
-    println(colored_text("Правильный пиньинь: $(word.pinyin)", :green))
+    # If the answer is still wrong after the attempts
+    println(colored_text("Incorrect.", :yellow))
+    println(colored_text("Correct pinyin: $(word.pinyin)", :green))
     return -1
 end
 
 function task_translation(word::Word, pool::WordPool)
-    println("Задание: Введите ключевые слова для перевода (например, 'have+not;context').")
+    println("Task: Enter translation keywords (e.g. 'have+not;context').")
 
-    # Переменная для хранения попыток
+    # Attempt counter
     attempts = 0
 
     while attempts < 2
         attempts += 1
         user_input = readline()
 
-        # Ищем подходящие слова по ключевым словам
+        # Find candidate words by keywords
         matching_words = find_words_by_keywords(user_input, pool)
 
         if isempty(matching_words)
-            println(colored_text("Ни одно слово не соответствует введённым ключевым словам.", :red))
+            println(colored_text("No words match the entered keywords.", :red))
             if attempts < 2
-                println("Попробуйте ввести ключевые слова ещё раз.")
+                println("Try entering the keywords again.")
                 continue
             else
-                println(colored_text("Ответ неверный", :yellow))
-                println(colored_text("Правильный перевод: $(word.translation)", :green))
+                println(colored_text("Incorrect.", :yellow))
+                println(colored_text("Correct translation: $(word.translation)", :green))
                 if !isempty(word.context)
-                    println(colored_text("Контекст: $(word.context)", :yellow))
+                    println(colored_text("Context: $(word.context)", :yellow))
                 end
                 return -1
             end
         end
 
-        # Если есть совпадения, выводим список
-        println("\nВыберите правильный перевод из предложенных вариантов:")
+        # If we have matches, show the list
+        println("\nChoose the correct translation from the options below:")
         for (i, (_, matched_word)) in enumerate(matching_words)
-            # Добавляем перевод и контекст, если он есть
-            context_str = isempty(matched_word.context) ? "" : " (контекст: $(matched_word.context))"
+            # Add translation and context (if any)
+            context_str = isempty(matched_word.context) ? "" : " (context: $(matched_word.context))"
             println("[$i] $(matched_word.translation)$context_str")
         end
 
-        # Получаем выбор пользователя
+        # Read user selection
         selected_index = try
             parse(Int, readline())
         catch
-            println(colored_text("Пожалуйста, введите номер из предложенного списка.", :yellow))
-            attempts -= 1  # Не считать некорректный ввод за попытку
+            println(colored_text("Please enter a number from the list.", :yellow))
+            attempts -= 1  # Don't count invalid input as an attempt
             continue
         end
 
-        # Проверяем выбор
+        # Validate selection
         if selected_index > 0 && selected_index <= length(matching_words)
             selected_word = matching_words[selected_index][2]
             if selected_word.id == word.id
                 if attempts == 1
-                    println(colored_text("Правильно с первой попытки!", :green))
+                    println(colored_text("Correct on the first try!", :green))
                     return 1
                 else
-                    println(colored_text("Правильно со второй попытки!", :yellow))
+                    println(colored_text("Correct on the second try!", :yellow))
                     return 0
                 end
             else
-                println(colored_text("Неправильно. Попробуйте ещё раз.", :red))
-                # Сохранение корреляции (ID неверного перевода)
+                println(colored_text("Incorrect. Try again.", :red))
+                # Store correlation (wrong translation ID)
                 record_correlation_error(word, Translation, selected_word.id, pool)
                 if attempts == 2
-                    println(colored_text("Ответ неверный", :yellow))
-                    println(colored_text("Правильный перевод: $(word.translation)", :green))
+                    println(colored_text("Incorrect.", :yellow))
+                    println(colored_text("Correct translation: $(word.translation)", :green))
                     if !isempty(word.context)
-                        println(colored_text("Контекст: $(word.context)", :yellow))
+                        println(colored_text("Context: $(word.context)", :yellow))
                     end
                     return -1
                 end
             end
         else
-            println(colored_text("Неправильный выбор. Попробуйте ещё раз.", :yellow))
-            attempts -= 1  # Некорректный выбор не засчитываем как попытку
+            println(colored_text("Invalid choice. Try again.", :yellow))
+            attempts -= 1  # Don't count invalid choice as an attempt
         end
     end
 
@@ -847,49 +873,49 @@ function task_translation(word::Word, pool::WordPool)
 end
 
 function train_from_hanzi(word::Word, pool::WordPool)
-    println("Иероглиф слова: ", word.hanzi)
+    println("Word hanzi: ", word.hanzi)
 
-    # 1. Нарисовать иероглиф (квазитренировка, статистика не учитывается)
+    # 1. Write hanzi (warm-up; does not affect stats)
     task_hanzi(word, pool)
 
-    # 2. Ввести пиньинь
+    # 2. Enter pinyin
     result_pinyin = task_pinyin(word, pool)
     update_word(word, (Hanzi, Pinyin), result_pinyin)
 
-    # 3. Ввести перевод
+    # 3. Enter translation
     result_translation = task_translation(word, pool)
     update_word(word, (Hanzi, Translation), result_translation)
 end
 
 function train_from_pinyin(word::Word, pool::WordPool)
-    # println("Пиньинь слова: ", word.pinyin)
+    # println("Word pinyin: ", word.pinyin)
 
-    # 1. Ввести пиньинь (квазитренировка, статистика не учитывается)
+    # 1. Enter pinyin (warm-up; does not affect stats)
     task_pinyin(word, pool, sound=true)
 
-    # 2. Указать иероглиф
+    # 2. Enter hanzi
     result_hanzi = task_hanzi(word, pool)
     update_word(word, (Pinyin, Hanzi), result_hanzi)
 
-    # 3. Указать перевод
+    # 3. Enter translation
     result_translation = task_translation(word, pool)
     update_word(word, (Pinyin, Translation), result_translation)
 end
 
 function train_from_translation(word::Word, pool::WordPool)
-    println("Перевод слова: ", word.translation)
+    println("Word translation: ", word.translation)
     if !isempty(word.context)
-        println("Контекст: $(colored_text(word.context, :yellow))")
+        println("Context: $(colored_text(word.context, :yellow))")
     end
 
-    # 1. Найти перевод (квазитренировка, статистика не учитывается)
+    # 1. Find translation (warm-up; does not affect stats)
     # task_translation(word, pool)
 
-    # 2. Указать иероглиф
+    # 2. Enter hanzi
     result_hanzi = task_hanzi(word, pool)
     update_word(word, (Translation, Hanzi), result_hanzi)
 
-    # 3. Ввести пиньинь
+    # 3. Enter pinyin
     result_pinyin = task_pinyin(word, pool)
     update_word(word, (Translation, Pinyin), result_pinyin)
 end
@@ -897,14 +923,14 @@ end
 function train_word(word::Word, pool::WordPool)
     run(`clear`)
     if isempty(word.stats)
-        println("Нет статистики для слова: ", word.id)
+        println("No stats for word: ", word.id)
         return
     end
 
-    # Выбор атрибута с минимальным уровнем
+    # Choose the attribute with the minimum level
     attibute_to_train_from = argmin(x -> x[2].level, word.stats)[1][1]
     # attibute_to_train_from = findmin([(key, stats.level) for (key, stats) in word.stats])
-    println("Тренируем атрибут: ", attibute_to_train_from)
+    println("Training attribute: ", attibute_to_train_from)
 
     if attibute_to_train_from == Hanzi
         train_from_hanzi(word, pool)
@@ -913,18 +939,18 @@ function train_word(word::Word, pool::WordPool)
     elseif attibute_to_train_from == Translation
         train_from_translation(word, pool)
     else
-        println("Неизвестный атрибут для тренировки: ", attibute_to_train_from)
+        println("Unknown attribute to train: ", attibute_to_train_from)
     end
 
     say_text(word.hanzi)
 end
 
-# Функция для создания словаря градаций на основе глобального уровня
+# Create a gradations dictionary based on the global level
 function calculate_gradations(pool::WordPool)::Dict{String, Int}
-    # Инициализация градаций
+    # Initialize gradations
     gradations = Dict("ephemeral" => 0, "fleeting" => 0, "short-term" => 0, "transition" => 0, "long-term" => 0, "permanent" => 0)
 
-    # Распределяем слова по градациям на основе их глобального уровня
+    # Distribute words into gradations based on global level
     for word in values(pool.known_words)
         global_level = word.level_global
 
@@ -947,10 +973,10 @@ function calculate_gradations(pool::WordPool)::Dict{String, Int}
 end
 
 function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
-    # Считаем градации слов
+    # Count word gradations
     gradations = calculate_gradations(pool)
 
-    # Считаем количество слов с высоким глобальным приоритетом
+    # Count the number of words with high global priority
     high_priority_count = 0
     for word in values(pool.known_words)
         global_priority = calculate_priority(word.level_global, word.date_last_reviewed_global)
@@ -959,9 +985,9 @@ function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
         end
     end
 
-    # Если нет слов с высоким приоритетом
+    # If there are no high-priority words
     if high_priority_count == 0
-        println("Нет слов с высоким приоритетом для повторения. Хотите добавить новое слово? (y/n)")
+        println("No high-priority words to review. Add a new word? (y/n)")
         while true
             user_input = readline()
             if user_input == "y"
@@ -969,115 +995,115 @@ function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
             elseif user_input == "n"
                 return false
             else
-                println("Пожалуйста, введите 'y' или 'n'.")
+                println("Please enter 'y' or 'n'.")
             end
         end
     end
 
-    # Проверяем ограничения по градациям
+    # Check gradation constraints
     if gradations["ephemeral"] < params.max_ephemeral_words
-        return true  # Добавляем новое слово, чтобы поддерживать активную фазу обучения
+        return true  # Add a new word to keep the active learning phase going
     elseif gradations["ephemeral"] + gradations["fleeting"] >= params.max_fleeting_words
-        return false  # Не добавляем, если активных слов слишком много
+        return false  # Don't add if there are too many active words
     elseif high_priority_count >= params.max_total_words
-        return false  # Не добавляем, если слишком много слов для повторения
+        return false  # Don't add if there are too many words to review
     else
-        return false  # Во всех других случаях новое слово не добавляется
+        return false  # Otherwise, don't add a new word
     end
 end
 
 function select_random_word!(pool::WordPool)::Union{Word, Nothing}
     if isempty(pool.new_words)
-        println("Пул новых слов пуст.")
+        println("New word pool is empty.")
         return nothing
     end
 
-    # Выбираем случайный ключ из словаря новых слов
+    # Pick a random key from the new-words dictionary
     random_key = rand(collect(keys(pool.new_words)))
     selected_word = pool.new_words[random_key]
 
-    # Удаляем слово из новых слов и добавляем в известные
+    # Move the word from new -> known
     delete!(pool.new_words, random_key)
     pool.known_words[random_key] = selected_word
 
-    println("Добавлено новое слово для изучения: ", selected_word.hanzi)
+    println("Added a new word to learn: ", selected_word.hanzi)
     return selected_word
 end
 
 function introduce_new_word(word::Word, pool::WordPool)
     run(`clear`)
-    println(colored_text("Новое слово для изучения:", :blue))
-    println("Иероглиф: $(colored_text(word.hanzi, :green))")
-    println("Пиньинь: $(colored_text(word.pinyin, :green))")
-    println("Перевод: $(colored_text(word.translation, :green))")
+    println(colored_text("New word to learn:", :blue))
+    println("Hanzi: $(colored_text(word.hanzi, :green))")
+    println("Pinyin: $(colored_text(word.pinyin, :green))")
+    println("Translation: $(colored_text(word.translation, :green))")
     if !isempty(word.context)
-        println("Контекст: $(colored_text(word.context, :yellow))")
+        println("Context: $(colored_text(word.context, :yellow))")
     end
 
-    println("\nПопробуй запомнить это слово, а затем мы приступим к тренировке.")
-    println("Нажми Enter, чтобы продолжить.")
+    println("\nTry to remember this word, then we'll start training.")
+    println("Press Enter to continue.")
     readline()
 
-    # 1. Нарисовать иероглиф
+    # 1. Write hanzi
     task_hanzi(word, pool)
 
-    # 2. Ввести пиньинь
+    # 2. Enter pinyin
     task_pinyin(word, pool, sound=true)
  
-    # 3. Ввести перевод
+    # 3. Enter translation
     task_translation(word, pool)
 end
 
 function start_training_session(pool::WordPool, params::TrainingParams)
     while true
-        # 1. Проверяем, нужно ли добавить новое слово
+        # 1. Decide whether to add a new word
         if should_add_new_word(pool, params)
             new_word = select_random_word!(pool)
             if new_word !== nothing
-                # Добавляем новое слово в известные слова
+                # Add the new word to known words
                 pool.known_words[new_word.id] = new_word
-                # Удаляем слово из новых слов
+                # Remove the word from new words
                 delete!(pool.new_words, new_word.id)
-                # Знакомим пользователя с новым словом
+                # Introduce the word to the user
                 introduce_new_word(new_word, pool)
             end
         end
 
-        # 2. Формируем пул слов для тренировки
+        # 2. Build the pool of words to train
         training_words = []
         for word in values(pool.known_words)
             global_priority = calculate_priority(word.level_global, word.date_last_reviewed_global)
 
-            # Добавляем слова с приоритетом > 1 или с уровнем 0
+            # Include words with priority > 1 or level 0
             if global_priority > 1 || word.level_global == 0
                 push!(training_words, word)
             end
         end
 
-        # Если нет слов для тренировки, завершаем сессию
+        # If there are no words to train, end the session
         if isempty(training_words)
-            println("Нет слов для тренировки. Вы можете добавить новые слова или вернуться позже.")
+            println("No words to train. You can add new words or come back later.")
             break
         end
 
-        # Выбираем случайные слова для тренировки (например, 5 слов)
+        # Pick a random batch to train (e.g., 5 words)
         training_batch = sample(training_words, min(5, length(training_words)), replace=false)
 
-        # 3. Проводим тренировку для каждого слова
+        # 3. Train each word
         for word in training_batch
             println("")
-            train_word(word, pool)  # Используем функцию тренировки для слова
+            train_word(word, pool)  # Use the per-word training function
         end
 
-        # 4. Сохраняем результаты после каждого круга тренировок
+        # 4. Save results after each training round
         save_words_to_file(pool.known_words, "ChineseSave.json")
         save_stats_to_file(pool.known_words, "ChineseStats.txt")
 
-        # Спрашиваем пользователя, хочет ли он продолжить тренировку
-        println("\nХотите продолжить тренировку? (нажмите Enter для продолжения или введите 'exit' для выхода)")
+        # Ask whether to continue
+        println("\nContinue training? (press Enter to continue, or type 'exit' to quit)")
         user_input = readline()
         if user_input == "exit"
-            println("Тренировка завершена.")
+            println("Training finished.")
             break
         end
     end
@@ -1088,7 +1114,7 @@ function main()
     pool = WordPool(load_words_from_file("ChineseSave.json"), Dict{String, Word}())
     params = TrainingParams()
     
-    # Обновляем пул слов из файла vocabulary.txt
+    # Update the word pool from the vocabulary file
     update_word_pool_from_file!(pool, "ChineseVocabulary.txt")
     
     # erase_history(pool)
