@@ -1,13 +1,80 @@
 Hanzi      Pinyin               Translation                                        h->p	 h->t	 p->h	 p->t	 t->h	 t->p	mean	min 	
-也         ye3                  also                                                 4	   4	   4	   5	   7	   8	 5.3	   4
-好看       hao3 kan4            good looking                                         5	   5	   5	   5	   9	   8	 6.2	   5
-医生       yi1sheng1            Doctor                                               4	   4	   3	   1	   2	   1	 2.5	   1
-呢         ne                   auxiliary word                                       7	   6	   7	   4	   8	   6	 6.3	   4
-哪里       na3 li3              where                                                6	   5	   7	   6	   8	   9	 6.8	   5
-我们       wo3men               We                                                   4	   4	   6	   8	   6	   4	 5.3	   4
-是         shi4                 yes                                                  5	   6	   7	   8	   6	   6	 6.3	   5
-没         mei2                 no                                                   5	   6	   4	   4	   8	   7	 5.7	   4
-常常       chang2 chang2        often                                                4	   4	   5	   4	   2	   2	 3.5	   2
-课本       ke4 ben3             textbook                                             8	   9	   6	   5	   6	   7	 6.8	   5
-地上       di4 shang4           on the ground                                        8	   6	   3	   3	   3	   4	 4.5	   3
-字         zi4                  word, character                                      8	   9	   7	   9	   9	   7	 8.2	   7
+电影       dian4ying3           Film                                                12	  13	  15	  13	  15	  13	13.5	  12
+会         hui4                 can; be able to                                     13	  13	  15	  13	  14	  12	13.3	  12
+小学       xiao3 xue2           primary school; elementary school                   14	  15	  14	  13	  13	  13	13.7	  13
+第         di4                  auxiliary word                                      14	  13	  15	  15	  14	  13	14.0	  13
+新         xin1                 new                                                 15	  15	  14	  14	  13	  17	14.7	  13
+上课       shang4 ke4           attend class; have a class                          14	  15	  15	  16	  14	  15	14.8	  14
+不客气     bu2 ke4 qi4          You’re welcome                                      14	  13	  14	  14	  15	  13	13.8	  13
+不对       bu2 dui4             wrong                                               14	  14	  15	  13	  13	  14	13.8	  13
+机票       ji1 piao4            air ticket                                          13	  13	  14	  14	  12	  15	13.5	  12
+拿         na2                  take                                                14	  14	  15	  13	  15	  13	14.0	  13
+四         si4                  Four                                                14	  14	  13	  14	  13	  13	13.5	  13
+本子       ben3 zi              book                                                12	  12	  12	  11	  13	  14	12.3	  11
+学生       xue2sheng            Student                                             11	  13	  12	  13	  13	  13	12.5	  11
+意大利     yi4 da4 li4          Italy                                               13	  13	  14	  13	  15	  14	13.7	  13
+亚洲       ya4 zhou1            Asia                                                12	  11	  14	  11	  14	  14	12.7	  11
+打         da3                  hit, take                                           11	  11	  12	  12	  11	  13	11.7	  11
+喝         he1                  drink                                               11	  14	  15	  15	  11	  12	13.0	  11
+课         ke4                  course                                              12	  11	  11	  11	  14	  12	11.8	  11
+今天       jin1tian1            Today                                               11	  13	  12	  13	  12	  13	12.3	  11
+那里       na4 li3              there                                               12	  13	  13	  13	  12	  15	13.0	  12
+奶奶       nai3nai              grandma                                             14	  12	  13	  12	  13	  11	12.5	  11
+球         qiu2                 ball                                                12	  13	  13	  14	  13	  12	12.8	  12
+票         piao4                ticket                                              14	  13	  14	  14	  18	  12	14.2	  12
+哪         na3                  which                                               13	  14	  15	  13	  12	  13	13.3	  12
+他         ta1                  he                                                  13	  13	  11	  12	  14	  13	12.7	  11
+一会儿     yi2hui4r             A little while                                      13	  15	  13	  13	  12	  14	13.3	  12
+一         yi1                  One                                                 12	  11	  12	  10	  14	  13	12.0	  10
+中间       zhong1jian1          Middle                                              15	  13	  13	  13	  13	  16	13.8	  13
+真的       zhen1 de             really                                              15	  13	  13	  12	  14	  13	13.3	  12
+还有       hai2 you3            also; in addition; besides                          13	  13	  14	  14	  11	  15	13.3	  11
+唱歌       chang4 ge1           sing                                                12	  12	  13	  14	  13	  14	13.0	  12
+学         xue2                 learn; study                                        12	  12	  13	  12	  13	  15	12.8	  12
+医生       yi1sheng1            Doctor                                              13	  14	  13	  13	  14	  14	13.5	  13
+下车       xia4 che1            get off                                             12	  12	  12	  11	  11	  11	11.5	  11
+地点       di4dian3             location                                            11	  12	  11	  11	  14	  13	12.0	  11
+那儿       na4r                 there                                               13	  13	  14	  12	  12	  12	12.7	  12
+常常       chang2 chang2        often                                               13	  15	  12	  13	  14	  12	13.2	  12
+唱         chang4               sing                                                13	  12	  14	  13	  13	  12	12.8	  12
+饭店       fan4dian4            restaurant                                          11	  11	  14	  12	  14	  11	12.2	  11
+认识       ren4shi              know                                                11	  12	  13	  14	  14	  14	13.0	  11
+行         xing2                That’s ok                                           11	  12	  12	  12	  11	  11	11.5	  11
+本         ben3                 (measure word for books or volumes)                 12	  15	  13	  12	  11	  11	12.3	  11
+杯子       bei1 zi              cup                                                 13	  11	  13	  14	  11	  12	12.3	  11
+还         hai2                 also; still; yet                                    14	  14	  13	  12	  10	  13	12.7	  10
+贵         gui4                 noble                                               12	  11	  14	  13	  12	  14	12.7	  11
+呢         ne                   auxiliary word                                      14	  15	  13	  13	  11	  11	12.8	  11
+去         qu4                  go                                                  13	  13	   7	   8	   8	  14	10.5	   7
+上网       shang4wang3          Surf the Internet                                   12	  14	  12	  11	  13	  14	12.7	  11
+下午       xia4wu3              Afternoon                                           12	  11	   7	  14	   9	  11	10.7	   7
+下         xia4                 below; under; next; go down; get off                14	  13	  11	  14	  11	  13	12.7	  11
+元         yuan2                element; Yuan                                       12	  13	  13	  13	  12	  13	12.7	  12
+真         zhen1                really                                              12	  12	  12	  12	  13	  13	12.3	  12
+电         dian4                electricity                                         11	  14	  12	  13	  13	  13	12.7	  11
+饭         fan4                 rice; meal                                          13	  11	  12	  13	  14	  13	12.7	  11
+们（朋友们） men (peng2 you3 men) plural marker for pronouns and a few animate nouns (friends)  13	  13	  13	  15	   9	  12	12.5	   9
+有名       you3ming2            Famous                                              13	  13	  13	  14	  12	  12	12.8	  12
+洗手间     xi3shou3jian1        Restroom                                            11	  12	  10	  11	  14	  11	11.5	  10
+衣服       yi1fu                clothes                                             14	  12	  13	  12	  13	  13	12.8	  12
+没什么     mei2 shen2 me        It’s nothing                                        13	  14	  12	  12	  14	  12	12.8	  12
+课本       ke4 ben3             textbook                                            12	  13	  13	  11	  12	  14	12.5	  11
+你         ni3                  you                                                 14	  11	  13	  12	  12	  12	12.3	  11
+一点儿     yi1dian3r            a little bit                                        11	  13	  13	  13	  13	  14	12.8	  11
+个         ge4                  individual                                          12	  12	  12	  10	  10	   9	10.8	   9
+老         lao3                 old; aged                                           12	  13	  11	  10	  10	   4	10.0	   4
+见         jian4                see; meet                                           10	  11	  11	  11	  11	  13	11.2	  10
+热         re4                  heat                                                10	  10	   9	  10	   4	  13	 9.3	   4
+百         bai3                 hundred                                              4	   5	   6	   7	  12	  13	 7.8	   4
+汉堡包     han4 bao3 bao1       hamburger                                           14	  11	   8	   6	  12	  12	10.5	   6
+吃饭       chi1 fan4            have meal                                            5	   5	   6	   6	   6	   7	 5.8	   5
+地         di4                  ground                                               5	  13	   6	   5	   6	   5	 6.7	   5
+打球       da3 qiu2             play ball                                            6	   4	   5	   4	   6	   4	 4.8	   4
+毛         mao2                 a fractional unit of money in China (measure word)   4	   5	   4	   6	  13	  12	 7.3	   4
+那         na4                  that                                                 5	   6	   4	   4	   6	  12	 6.2	   4
+日         ri4                  date                                                 6	   5	   7	   7	   6	   6	 6.2	   5
+中         zhong1               middle; in                                           5	   6	   5	   5	   4	   4	 4.8	   4
+叫         jiao4                call; be called                                      0	   0	   0	   0	   0	   0	 0.0	   0
+钱包       qian2 bao1           wallet                                               0	   0	   0	   0	   0	   0	 0.0	   0
+这里       zhe4 li3             here                                                 0	   0	   0	   0	   3	   0	 0.5	   0
+有（一）些 you3 (yi4) xie1      some                                                 0	   0	   0	   0	   4	   0	 0.7	   0
