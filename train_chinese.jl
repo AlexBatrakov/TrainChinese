@@ -6,12 +6,23 @@ using Printf
 using PyPlot
 using StatsBase
 
+"""
+Enum describing which attribute of a word is being trained or recalled.
+
+- `Hanzi`: Chinese characters
+- `Pinyin`: pinyin with tone numbers
+- `Translation`: English translation (plus optional context)
+"""
 @enum AttributeType begin
     Hanzi         # Hanzi (Chinese characters)
     Pinyin        # Pinyin
     Translation   # Translation
 end
 
+"""Parse a string like `"Hanzi"` into an `AttributeType`.
+
+Returns `nothing` if the string does not match any enum value.
+"""
 function parse_attribute_type(str::String)::Union{AttributeType, Nothing}
     let insts = instances(AttributeType),
         p = findfirst(==(Symbol(str)) ∘ Symbol, insts)
@@ -19,6 +30,7 @@ function parse_attribute_type(str::String)::Union{AttributeType, Nothing}
     end
 end
 
+"""Single review event (one attempt sequence) captured for analytics and scheduling."""
 struct RewievInfo
     date_reviewed::DateTime
     time_interval_minutes::Float64
@@ -45,6 +57,11 @@ function RewievInfo(; date_reviewed=now(),
      priority, memory_strength, hint_used, result, level_old, level_new)
 end
 
+"""Per-task statistics for a word.
+
+Each word is trained as multiple directed tasks (e.g. `Hanzi -> Pinyin`).
+This struct stores the spaced-repetition level and review history for one such task.
+"""
 mutable struct WordStats
     level::Int                         # Learning level for this task
     date_last_reviewed::DateTime       # Last review time for this task
@@ -56,6 +73,13 @@ end
 
 WordStats() = WordStats(0, now(), 0, 0, 0, Vector{RewievInfo}())
 
+"""Vocabulary item tracked by the trainer.
+
+Fields include the word itself (`hanzi`, `pinyin`, `translation`, optional `context`),
+global spaced-repetition level, and per-task stats for all attribute pairs.
+
+`correlation_errors` is used to capture common confusions (e.g. mixing up similar hanzi).
+"""
 mutable struct Word
     id::String                          # Unique word ID (e.g. "hsk1.98", "duo.7", or "hsk3.487.a")
     hanzi::String                       # Hanzi
@@ -92,12 +116,26 @@ function calculate_priority(level::Int, date_last_reviewed::DateTime)::Float64
     return priority
 end
     
+"""Compute memory strength (0..1) from level and last-review time.
+
+Higher value means the item is more likely to be recalled. This is an exponential
+decay model based on the derived `priority`.
+"""
 function calculate_memory_strength(level::Int, date_last_reviewed::DateTime)::Float64
     C = 1.0887147152069994
     priority = calculate_priority(level, date_last_reviewed)
     return exp2(-C * priority)
 end
 
+"""Compute a new spaced-repetition level after an attempt.
+
+`result` meanings:
+- `1`: correct on first try
+- `0`: correct with a hint / second try
+- `-1`: incorrect
+
+The update is probabilistic and depends on the current memory strength.
+"""
 function calculate_new_level(word_stats::WordStats, result::Int)
     level_old = word_stats.level
     date_last_reviewed = word_stats.date_last_reviewed
@@ -125,6 +163,7 @@ function calculate_new_level(word_stats::WordStats, result::Int)
     return level_new
 end
 
+"""Update per-task statistics for a word after an attempt."""
 function update_word_stats(word::Word, task_type::Tuple{AttributeType, AttributeType}, result::Int)
     word_stats = word.stats[task_type]
 
@@ -152,12 +191,17 @@ function update_word_stats(word::Word, task_type::Tuple{AttributeType, Attribute
     word_stats.date_last_reviewed = now()  # Update last review time
 end
 
+"""Recompute global word stats.
+
+Currently, the global level is the minimum of all per-task levels.
+"""
 function update_global_stats(word::Word)
     min_level = minimum(stat.level for stat in values(word.stats))
     word.level_global = min_level
     word.date_last_reviewed_global = now()
 end
 
+"""Update a word after completing one task (e.g. `Hanzi -> Pinyin`)."""
 function update_word(word::Word, task_type::Tuple{AttributeType, AttributeType}, result::Int)
     # Update per-task stats
     update_word_stats(word, task_type, result)
@@ -166,6 +210,11 @@ function update_word(word::Word, task_type::Tuple{AttributeType, AttributeType},
     update_global_stats(word)
 end
 
+"""Container holding two word pools.
+
+- `known_words`: words currently being trained (have progress)
+- `new_words`: words available to be introduced
+"""
 struct WordPool
     known_words::Dict{String, Word}   # Words currently being learned
     new_words::Dict{String, Word}     # Words not studied yet
@@ -184,6 +233,7 @@ function TrainingParams(; max_ephemeral_words::Int=5, max_fleeting_words::Int=20
     return TrainingParams(max_ephemeral_words, max_fleeting_words, max_total_words)
 end
 
+"""Wrap `text` with ANSI escape codes for terminal coloring."""
 # Change terminal text color
 function colored_text(text::String, color::Symbol)
     colors = Dict(
@@ -243,6 +293,12 @@ tone_map = Dict(
     "｜" => "|", "（" => "(", "）" => ")", "·" => ".", "’" => "'"
 )
 
+"""Convert pinyin with diacritics to pinyin with tone numbers.
+
+Example: `"nǐ hǎo"` → `"ni3 hao3"`.
+
+Uses `tone_map` for mapping finals with tone marks to numbered syllables.
+"""
 function convert_pinyin_string(pinyin_text::String, tone_map::Dict{String, String})::String
     # Sort finals by descending length so longer finals match first
     sorted_finals = sort(collect(keys(tone_map)), by = x -> -length(x))
@@ -313,7 +369,10 @@ end
 
 duolingo_list = ["水", "咖", "啡", "和", "茶", "米", "饭", "这", "是", "汤", "冰", "你", "的", "粥", "豆", "腐", "热", "英", "国", "美", "中", "人", "我", "好", "意", "大", "利", "呢", "文", "医", "生", "老", "师", "服", "务", "员", "对", "不", "说", "律", "学", "喜", "欢", "日", "本", "汉", "堡", "包", "菜", "音", "乐", "数", "课", "上", "网", "唱", "歌", "跑", "爸", "婆", "很", "高", "兴", "认", "识", "加", "拿", "她", "妈", "公", "旅", "行", "儿", "子", "他", "习", "也", "真", "吗", "女", "馆", "去", "书", "店", "超", "市", "吃", "口", "韩", "常", "亚", "洲", "买", "零", "食", "看", "谢", "杯", "要", "牛", "奶", "两", "绿", "客", "气", "李", "里", "在", "钱", "哪", "洗", "手", "间", "火", "车", "站", "机", "票", "第", "一", "二", "台", "个", "同", "新", "有", "叫", "什", "么", "名", "字", "丽", "节", "四", "今", "天", "都", "历", "史", "们", "打", "篮", "球", "还", "喝", "想", "明", "电", "影", "院", "园", "吧", "图", "书", "馆", "下", "午", "见", "果", "步", "哎", "呀", "房", "厅", "寓", "小", "漂", "亮", "厨", "发", "舒", "床", "空", "调", "没", "视", "月", "会", "北", "京", "飞", "怎", "坐", "场", "远", "出", "租", "地", "铁", "故", "长", "城", "交", "便", "宜", "件", "毛", "衣", "冷", "样", "那", "点", "克", "裤", "条", "短", "百", "贵", "元"]
 
-# macOS text-to-speech helper (default voice: Tingting)
+"""Speak `text` via macOS `say`.
+
+This is macOS-specific and will fail on other OSes.
+"""
 function say_text(text::String, voice::String = "Tingting")
     # Add short pauses before and after the text
     padded_text = "[[slnc 100]] $(text) [[slnc 100]]" # 100ms pause before and after
@@ -324,7 +383,11 @@ function say_text(text::String, voice::String = "Tingting")
     end
 end
 
-# macOS text-to-speech for a word (handles a few ambiguity edge cases)
+"""Speak a word's hanzi via macOS `say`.
+
+Contains a small set of disambiguation hacks for characters that `say` pronounces
+unexpectedly depending on context.
+"""
 function say_word(word::Word, voice::String = "Tingting")
     text = deepcopy(word.hanzi)
     pinyin = word.pinyin
@@ -391,6 +454,16 @@ function cut_hanzi(hanzi::String)
     end
 end
 
+"""Load vocabulary entries from a text file into `pool`.
+
+Input file format (line-based):
+`id | hanzi | pinyin | translation | optional context`
+
+Notes:
+- Lines starting with `#` are comments.
+- The file supports a `SKIP` toggle region and an early `STOP` marker.
+- `pinyin` is normalized via `convert_pinyin_string`.
+"""
 function update_word_pool_from_file!(pool::WordPool, filename::String)
     # duolingo_mode1 = false
     # duolingo_mode2 = false
@@ -474,7 +547,7 @@ function update_word_pool_from_file!(pool::WordPool, filename::String)
     println(colored_text("Word pool updated from file $filename", :blue))
 end
 
-# Convert a string to Tuple{AttributeType, AttributeType}
+"""Convert a task string like `"Hanzi -> Pinyin"` to a tuple."""
 function string_to_task_tuple(task_str::String)::Tuple{AttributeType, AttributeType}
     parts = split(task_str, " -> ")
     if length(parts) == 2
@@ -487,11 +560,12 @@ function string_to_task_tuple(task_str::String)::Tuple{AttributeType, AttributeT
     error("Invalid task string format: $task_str")
 end
 
-# Convert Tuple{AttributeType, AttributeType} to string
+"""Convert a task tuple like `(Hanzi, Pinyin)` to string form `"Hanzi -> Pinyin"`."""
 function task_tuple_to_string(task::Tuple{AttributeType, AttributeType})::String
     return string(task[1]) * " -> " * string(task[2])
 end
 
+"""Persist known words (including stats) to a JSON file."""
 function save_words_to_file(words::Dict{String, Word}, filename::String)
     data = [
         Dict(
@@ -542,6 +616,10 @@ function save_words_to_file(words::Dict{String, Word}, filename::String)
     println("Data saved successfully to file $filename")
 end
 
+"""Load known words (including stats) from a JSON file.
+
+Returns an empty dictionary on errors.
+"""
 function load_words_from_file(filename::String)::Dict{String, Word}
     try
         # Load data from JSON
@@ -596,6 +674,10 @@ function load_words_from_file(filename::String)::Dict{String, Word}
     end
 end
 
+"""Write a tabular stats summary file for quick inspection.
+
+The output contains per-task levels, plus mean and min level per word.
+"""
 function save_stats_to_file(known_words::Dict{String, Word}, filename::String)
     # Open file for writing
     open(filename, "w") do file
@@ -637,12 +719,17 @@ function save_stats_to_file(known_words::Dict{String, Word}, filename::String)
     println(colored_text("Data saved successfully to file $filename", :blue))
 end
 
-# Exact word match helper
+"""Return `true` if `keyword` appears as a whole word within `text` (case-insensitive)."""
 function contains_exact_word(keyword::String, text::String)::Bool
     words = split(text, r"\W+")  # Split into words (taking punctuation into account)
     return lowercase(keyword) in lowercase.(words)
 end
 
+"""Find known words by translation/context keyword query.
+
+`keywords` format: `translation_kw1+translation_kw2;context_kw1+context_kw2`.
+Context part after `;` is optional.
+"""
 function find_words_by_keywords(keywords::String, pool::WordPool; max_results::Int = 10)::Vector{Tuple{String, Word}}
     parts = split(keywords, ";", limit=2)
     translation_keywords = parts[1] != "" ? split(parts[1], "+") : []
@@ -671,6 +758,11 @@ function find_words_by_keywords(keywords::String, pool::WordPool; max_results::I
     return matching_words[1:min(max_results, length(matching_words))]
 end
 
+"""Record a confusion/correlation error for later analysis.
+
+- For `Translation`, `input` is the wrong word ID the user selected.
+- For `Hanzi`/`Pinyin`, `input` is the entered value, which is matched against known words.
+"""
 function record_correlation_error(word::Word, attribute_type::AttributeType, input::String, pool::WordPool)
     if attribute_type == Translation
         # For Translation, `input` is the wrong word ID
@@ -698,6 +790,13 @@ function record_correlation_error(word::Word, attribute_type::AttributeType, inp
     end
 end
 
+"""Hanzi input task.
+
+Prompts the user to enter the correct character.
+Returns `1`/`0`/`-1` depending on attempt quality.
+
+Note: triggers a macOS keyboard-layout hotkey via `osascript`.
+"""
 function task_hanzi(word::Word, pool::WordPool)
     println("\nTask: Write the character. Enter it using a Chinese keyboard.")
     
@@ -742,12 +841,18 @@ function task_hanzi(word::Word, pool::WordPool)
     return -1
 end
 
+"""Compare pinyin strings while ignoring spaces."""
 function compare_pinyin(user_input::String, pinyin::String)
 	user_input_no_spaces = replace(user_input, " " => "")
 	pinyin_no_spaces     = replace(pinyin, " " => "")
 	return user_input_no_spaces == pinyin_no_spaces
 end
 
+"""Pinyin input task.
+
+If `sound=true`, plays TTS for the word before asking.
+Returns `1`/`0`/`-1` depending on attempt quality.
+"""
 function task_pinyin(word::Word, pool::WordPool; sound=false)
     println("\nTask: Enter pinyin with tones (e.g. ni3 hao3).")
     
@@ -794,6 +899,11 @@ function task_pinyin(word::Word, pool::WordPool; sound=false)
     return -1
 end
 
+"""Translation task.
+
+User enters keywords, then selects the intended translation from a shortlist.
+Returns `1`/`0`/`-1` depending on attempt quality.
+"""
 function task_translation(word::Word, pool::WordPool)
     println("Task: Enter translation keywords (e.g. 'have+not;context').")
 
@@ -872,6 +982,7 @@ function task_translation(word::Word, pool::WordPool)
     return -1
 end
 
+"""Train a word starting from hanzi (Hanzi → Pinyin → Translation)."""
 function train_from_hanzi(word::Word, pool::WordPool)
     println("Word hanzi: ", word.hanzi)
 
@@ -887,6 +998,7 @@ function train_from_hanzi(word::Word, pool::WordPool)
     update_word(word, (Hanzi, Translation), result_translation)
 end
 
+"""Train a word starting from pinyin (Pinyin → Hanzi → Translation)."""
 function train_from_pinyin(word::Word, pool::WordPool)
     # println("Word pinyin: ", word.pinyin)
 
@@ -902,6 +1014,7 @@ function train_from_pinyin(word::Word, pool::WordPool)
     update_word(word, (Pinyin, Translation), result_translation)
 end
 
+"""Train a word starting from translation (Translation → Hanzi → Pinyin)."""
 function train_from_translation(word::Word, pool::WordPool)
     println("Word translation: ", word.translation)
     if !isempty(word.context)
@@ -920,6 +1033,10 @@ function train_from_translation(word::Word, pool::WordPool)
     update_word(word, (Translation, Pinyin), result_pinyin)
 end
 
+"""Train a single word by choosing the weakest attribute as the starting point.
+
+The starting attribute is selected as the argmin of per-task levels.
+"""
 function train_word(word::Word, pool::WordPool)
     run(`clear`)
     if isempty(word.stats)
@@ -945,7 +1062,7 @@ function train_word(word::Word, pool::WordPool)
     say_text(word.hanzi)
 end
 
-# Create a gradations dictionary based on the global level
+"""Bucket words into coarse learning phases based on `level_global`."""
 function calculate_gradations(pool::WordPool)::Dict{String, Int}
     # Initialize gradations
     gradations = Dict("ephemeral" => 0, "fleeting" => 0, "short-term" => 0, "transition" => 0, "long-term" => 0, "permanent" => 0)
@@ -972,6 +1089,7 @@ function calculate_gradations(pool::WordPool)::Dict{String, Int}
     return gradations
 end
 
+"""Decide whether a new word should be introduced given current pool composition."""
 function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
     # Count word gradations
     gradations = calculate_gradations(pool)
@@ -1012,6 +1130,7 @@ function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
     end
 end
 
+"""Move a random word from `new_words` into `known_words` and return it."""
 function select_random_word!(pool::WordPool)::Union{Word, Nothing}
     if isempty(pool.new_words)
         println("New word pool is empty.")
@@ -1030,6 +1149,7 @@ function select_random_word!(pool::WordPool)::Union{Word, Nothing}
     return selected_word
 end
 
+"""Introduce a new word to the user (display + warm-up tasks)."""
 function introduce_new_word(word::Word, pool::WordPool)
     run(`clear`)
     println(colored_text("New word to learn:", :blue))
@@ -1054,6 +1174,14 @@ function introduce_new_word(word::Word, pool::WordPool)
     task_translation(word, pool)
 end
 
+"""Run an interactive training session.
+
+Each loop iteration:
+1) optionally introduces a new word
+2) samples a small batch of due words
+3) trains them
+4) saves progress to disk
+"""
 function start_training_session(pool::WordPool, params::TrainingParams)
     while true
         # 1. Decide whether to add a new word
@@ -1109,6 +1237,7 @@ function start_training_session(pool::WordPool, params::TrainingParams)
     end
 end
 
+"""Program entry point."""
 function main()
     pool = WordPool()
     pool = WordPool(load_words_from_file("ChineseSave.json"), Dict{String, Word}())
