@@ -24,4 +24,11 @@ using TrainChinese
 
     # Pinyin conversion sanity check
     @test TrainChinese.convert_pinyin_string("nǐ hǎo", TrainChinese.tone_map) == "ni3 hao3"
+
+    # Statistics function should be callable (no throw)
+    pool = TrainChinese.WordPool()
+    w = TrainChinese.Word("test.1", "你好", "ni3 hao3", "hello", "")
+    pool.known_words[w.id] = w
+
+    @test TrainChinese.display_statistics(pool) === nothing
 end

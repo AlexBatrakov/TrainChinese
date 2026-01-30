@@ -104,6 +104,78 @@ function calculate_gradations(pool::WordPool)::Dict{String, Int}
     return gradations
 end
 
+"""Display learning statistics for the current word pool.
+
+This is a convenience function intended for interactive use from the REPL.
+It prints:
+- total known/new words
+- distribution of words across coarse learning phases (based on `level_global`)
+- per-task averages and priority counts for the six directed tasks
+"""
+function display_statistics(pool::WordPool)
+    total_known = length(pool.known_words)
+    total_new = length(pool.new_words)
+
+    gradations = calculate_gradations(pool)
+    gradation_labels = [
+        ("ephemeral",  "Ephemeral:      (≤ 16 minutes)"),
+        ("fleeting",   "Fleeting:       (≤ 4 hours)"),
+        ("short-term", "Short-term:     (≤ 68 hours)"),
+        ("transition", "Transition:     (≤ 45 days)"),
+        ("long-term",  "Long-term:      (≤ 2 years)"),
+        ("permanent",  "Permanent:      (≥ 2 years)")
+    ]
+
+    println("Statistics:")
+    println("Known words: ", total_known)
+    println("New words:   ", total_new)
+
+    println("\nWords by memory phase (based on global level):")
+    for (key, label) in gradation_labels
+        println(rpad(label, 30), " ", get(gradations, key, 0))
+    end
+
+    task_specs = [
+        ("Hanzi → Pinyin",       (Hanzi, Pinyin)),
+        ("Hanzi → Translation",  (Hanzi, Translation)),
+        ("Pinyin → Hanzi",       (Pinyin, Hanzi)),
+        ("Pinyin → Translation", (Pinyin, Translation)),
+        ("Translation → Hanzi",  (Translation, Hanzi)),
+        ("Translation → Pinyin", (Translation, Pinyin))
+    ]
+
+    for (task_name, task_type) in task_specs
+        total_level = 0
+        total_priority = 0.0
+        high_priority_count = 0
+        medium_priority_count = 0
+
+        for word in values(pool.known_words)
+            word_stats = word.stats[task_type]
+            total_level += word_stats.level
+
+            word_priority = calculate_priority(word_stats.level, word_stats.date_last_reviewed)
+            if word_priority >= 1
+                high_priority_count += 1
+            elseif word_priority >= 0.5
+                medium_priority_count += 1
+            end
+            total_priority += word_priority
+        end
+
+        avg_task_level = total_known > 0 ? total_level / total_known : 0.0
+        avg_task_priority = total_known > 0 ? total_priority / total_known : 0.0
+
+        println("\nTask stats: ", task_name)
+        println("Average level: ", @sprintf("%.2f", avg_task_level))
+        println("High priority (≥ 1.0): ", high_priority_count)
+        println("Medium priority (0.5–1.0): ", medium_priority_count)
+        println("Average priority: ", @sprintf("%.3f", avg_task_priority))
+    end
+
+    return nothing
+end
+
 """Decide whether a new word should be introduced given current pool composition."""
 function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
     # Count word gradations

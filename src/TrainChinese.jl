@@ -19,6 +19,6 @@ include("search.jl")
 include("tasks.jl")
 include("training.jl")
 
-export main
+export main, display_statistics
 
 end
