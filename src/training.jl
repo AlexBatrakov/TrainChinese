@@ -302,6 +302,12 @@ function plot_review_history(words::Vector{Word}; max_words::Int=40, annotate::B
     return nothing
 end
 
+"""Convenience overload: plot per-word learning history for `pool.known_words`."""
+function plot_review_history(pool::WordPool; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true)
+    words = collect(values(pool.known_words))
+    return plot_review_history(words; max_words=max_words, annotate=annotate, show_plot=show_plot)
+end
+
 """Decide whether a new word should be introduced given current pool composition."""
 function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
     # Count word gradations

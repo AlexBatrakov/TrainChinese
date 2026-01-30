@@ -37,4 +37,7 @@ using TrainChinese
 
     # Per-word history plot should also be callable in headless mode
     @test TrainChinese.plot_review_history([w]; show_plot=false, annotate=false) === nothing
+
+    # Pool overload should be callable too
+    @test TrainChinese.plot_review_history(pool; show_plot=false, annotate=false) === nothing
 end
