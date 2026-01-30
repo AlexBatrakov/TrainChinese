@@ -176,6 +176,64 @@ function display_statistics(pool::WordPool)
     return nothing
 end
 
+"""Plot review history for known words across the six directed tasks.
+
+The plot shows how the per-task spaced-repetition level changes over time.
+Time is measured in minutes since the first review within each word+task history.
+
+Keyword args:
+- `show_plot::Bool=true`: call `PyPlot.show()` at the end (set to `false` for tests / headless runs).
+"""
+function plot_word_review_history(pool::WordPool; show_plot::Bool=true)
+    task_specs = [
+        ("Hanzi → Pinyin",       (Hanzi, Pinyin)),
+        ("Hanzi → Translation",  (Hanzi, Translation)),
+        ("Pinyin → Hanzi",       (Pinyin, Hanzi)),
+        ("Pinyin → Translation", (Pinyin, Translation)),
+        ("Translation → Hanzi",  (Translation, Hanzi)),
+        ("Translation → Pinyin", (Translation, Pinyin))
+    ]
+
+    colors = ["red", "blue", "green", "orange", "purple", "cyan"]
+
+    PyPlot.figure(figsize=(10, 6))
+
+    labeled = fill(false, length(task_specs))
+
+    for (task_index, (task_label, task_type)) in enumerate(task_specs)
+        color = colors[task_index]
+
+        for word in values(pool.known_words)
+            history = word.stats[task_type].review_history
+            isempty(history) && continue
+
+            t0 = history[1].date_reviewed
+            times = [(h.date_reviewed - t0) / Minute(1) for h in history]
+            levels = [h.level_new for h in history]
+
+            if length(times) >= 2
+                label = labeled[task_index] ? "_nolegend_" : task_label
+                PyPlot.plot(times[2:end], levels[2:end] .+ 0.15 * task_index, ".", color=color, label=label)
+                labeled[task_index] = true
+            end
+        end
+    end
+
+    PyPlot.xlabel("Time since first review (minutes)")
+    PyPlot.ylabel("Word level")
+    PyPlot.title("Review history by task")
+    PyPlot.grid(true)
+    PyPlot.tight_layout()
+    PyPlot.xscale("log")
+    PyPlot.legend(loc="upper left", bbox_to_anchor=(1, 1))
+
+    if show_plot
+        PyPlot.show()
+    end
+
+    return nothing
+end
+
 """Decide whether a new word should be introduced given current pool composition."""
 function should_add_new_word(pool::WordPool, params::TrainingParams)::Bool
     # Count word gradations

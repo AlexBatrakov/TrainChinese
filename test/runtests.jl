@@ -31,4 +31,7 @@ using TrainChinese
     pool.known_words[w.id] = w
 
     @test TrainChinese.display_statistics(pool) === nothing
+
+    # Plotting helper should be callable in headless mode
+    @test TrainChinese.plot_word_review_history(pool; show_plot=false) === nothing
 end
