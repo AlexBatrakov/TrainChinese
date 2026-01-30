@@ -19,6 +19,6 @@ include("search.jl")
 include("tasks.jl")
 include("training.jl")
 
-export main, display_statistics, plot_word_review_history
+export main, display_statistics, plot_word_review_history, plot_review_history
 
 end
