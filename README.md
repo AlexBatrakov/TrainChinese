@@ -89,6 +89,4 @@ CC-CEDICT-based dictionary file used by the trainer for additional lookups.
 
 ## License
 
-No explicit license yet.
-
-If you want this to be easy to reuse (and look “normal” to employers), consider adding an OSI-approved license file.
+MIT License. See `LICENSE`.
