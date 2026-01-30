@@ -324,13 +324,18 @@ end
 
 function _maybe_load_pyplot(show_plot::Bool)::Union{Module, Nothing}
     try
-        return Base.require(Base.PkgId(Base.UUID("d330b81b-6aea-500a-939a-2ce795aea3ee"), "PyPlot"))
-    catch
+        # Lazy-load optional plotting dependency.
+        # This keeps TrainChinese usable (and CI green) without a working Python/matplotlib stack.
+        @eval import PyPlot
+        return PyPlot
+    catch err
         if show_plot
-            rethrow()
-        else
-            return nothing
+            throw(ArgumentError(
+                "Plotting requires PyPlot, but it isn't available in the active environment. " *
+                "Install it with: `import Pkg; Pkg.add(\"PyPlot\")`. Original error: $(err)"
+            ))
         end
+        return nothing
     end
 end
 

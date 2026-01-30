@@ -103,6 +103,9 @@ Julia packages used by the script:
 
 - `JSON`
 - `StatsBase`
+
+Optional (only for plotting helpers):
+
 - `PyPlot`
 
 (`Dates`, `Statistics`, `Random`, `Printf` are part of the standard library.)
@@ -111,7 +114,14 @@ If you don’t have the packages installed yet, start Julia and run:
 
 ```julia
 import Pkg
-Pkg.add(["JSON", "StatsBase", "PyPlot"])
+Pkg.add(["JSON", "StatsBase"])
+```
+
+To enable plotting helpers (`--plot-history`), also install:
+
+```julia
+import Pkg
+Pkg.add("PyPlot")
 ```
 
 ## Quick start
