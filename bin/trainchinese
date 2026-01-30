@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+set -eu
+
+# Resolve the directory of this script even if invoked via symlink.
+# macOS `readlink` doesn't support -f, so we do it manually.
+SOURCE="$0"
+while [ -h "$SOURCE" ]; do
+  DIR=$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)
+  TARGET=$(readlink "$SOURCE")
+  case "$TARGET" in
+    /*) SOURCE="$TARGET" ;;
+    *) SOURCE="$DIR/$TARGET" ;;
+  esac
+done
+SCRIPT_DIR=$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)
+ROOT_DIR=$(cd "$SCRIPT_DIR/.." >/dev/null 2>&1 && pwd)
+
+# Run via the repo project environment.
+exec julia --project="$ROOT_DIR" "$ROOT_DIR/train_chinese.jl" "$@"

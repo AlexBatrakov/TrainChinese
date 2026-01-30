@@ -132,6 +132,28 @@ From the repository folder:
 julia --project=. train_chinese.jl
 ```
 
+## Installed CLI (optional)
+
+If you want to run the trainer as a command (e.g. `trainchinese --help`), this repo includes a small wrapper script:
+
+- macOS/Linux: `bin/trainchinese`
+- Windows (PowerShell): `bin/trainchinese.ps1`
+
+On macOS/Linux, make it executable and add it to your `PATH` (via symlink):
+
+```bash
+chmod +x bin/trainchinese
+mkdir -p ~/.local/bin
+ln -sf "$(pwd)/bin/trainchinese" ~/.local/bin/trainchinese
+```
+
+Then you can run:
+
+```bash
+trainchinese --help
+trainchinese --stats
+```
+
 ### CLI options
 
 ```bash

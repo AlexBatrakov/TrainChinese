@@ -6,6 +6,20 @@
 
 using TOML
 
+function _is_broken_pipe(err)::Bool
+    if !(err isa Base.IOError)
+        return false
+    end
+    if isdefined(Base, :UV_EPIPE)
+        try
+            return err.code == Base.UV_EPIPE
+        catch
+            # fall through
+        end
+    end
+    return occursin("broken pipe", lowercase(sprint(showerror, err)))
+end
+
 function _print_help()
     println("TrainChinese — terminal Chinese vocabulary trainer")
     println("")
@@ -104,31 +118,40 @@ if abspath(PROGRAM_FILE) == @__FILE__
     # Minimal argument handling.
     # Default remains unchanged: no args -> interactive training session.
 
-    flags, opts, unknown = _parse_cli_args(ARGS)
-    save_path = get(opts, "--save", "ChineseSave.json")
-    vocab_path = get(opts, "--vocab", "ChineseVocabulary.txt")
-    stats_path = get(opts, "--stats-out", "ChineseStats.txt")
+    try
+        flags, opts, unknown = _parse_cli_args(ARGS)
+        save_path = get(opts, "--save", "ChineseSave.json")
+        vocab_path = get(opts, "--vocab", "ChineseVocabulary.txt")
+        stats_path = get(opts, "--stats-out", "ChineseStats.txt")
 
-    if ("--help" in flags) || ("-h" in flags)
-        _print_help()
-        exit(0)
-    elseif ("--version" in flags) || ("-V" in flags)
-        _print_version(@__DIR__)
-        exit(0)
-    elseif "--stats" in flags
-        pool = _load_pool(save_path, vocab_path)
-        TrainChinese.display_statistics(pool)
-        exit(0)
-    elseif "--plot-history" in flags
-        pool = _load_pool(save_path, vocab_path)
-        TrainChinese.plot_review_history(pool)
-        exit(0)
-    elseif !isempty(unknown)
-        println("Unknown arguments: ", join(unknown, " "))
-        println("")
-        _print_help()
-        exit(2)
-    else
-        TrainChinese.main(; save_path=save_path, vocab_path=vocab_path, stats_path=stats_path)
+        if ("--help" in flags) || ("-h" in flags)
+            _print_help()
+            exit(0)
+        elseif ("--version" in flags) || ("-V" in flags)
+            _print_version(@__DIR__)
+            exit(0)
+        elseif "--stats" in flags
+            pool = _load_pool(save_path, vocab_path)
+            TrainChinese.display_statistics(pool)
+            exit(0)
+        elseif "--plot-history" in flags
+            pool = _load_pool(save_path, vocab_path)
+            TrainChinese.plot_review_history(pool)
+            exit(0)
+        elseif !isempty(unknown)
+            println("Unknown arguments: ", join(unknown, " "))
+            println("")
+            _print_help()
+            exit(2)
+        else
+            TrainChinese.main(; save_path=save_path, vocab_path=vocab_path, stats_path=stats_path)
+        end
+    catch err
+        # If stdout is piped to a consumer that closes early (e.g. `--help | head`),
+        # printing can raise EPIPE. Treat it as a clean exit.
+        if _is_broken_pipe(err)
+            exit(0)
+        end
+        rethrow()
     end
 end
