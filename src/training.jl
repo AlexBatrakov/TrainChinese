@@ -176,167 +176,66 @@ function display_statistics(pool::WordPool)
     return nothing
 end
 
+function _plotting_ext()
+    return Base.get_extension(TrainChinese, :TrainChinesePyPlotExt)
+end
+
+function _plotting_install_hint()
+    return "Install it with one of:\n" *
+           "  - `trainchinese --install-plotting` (recommended)\n" *
+           "  - `julia --project=cli -e 'import Pkg; Pkg.instantiate()'`"
+end
+
 """Plot review history for known words across the six directed tasks.
 
-The plot shows how the per-task spaced-repetition level changes over time.
-Time is measured in minutes since the first review within each word+task history.
-
-Keyword args:
-- `show_plot::Bool=true`: call `PyPlot.show()` at the end (set to `false` for tests / headless runs).
+This functionality is optional and requires `PyPlot` installed in the active
+project environment.
 """
-function plot_word_review_history(pool::WordPool; show_plot::Bool=true)
-    # PyPlot requires a working Python + matplotlib; on CI (e.g. Ubuntu) this may
-    # not be available. In headless mode, silently skip plotting.
-    PyPlot = _maybe_load_pyplot(show_plot)
-    PyPlot === nothing && return nothing
+function plot_word_review_history(pool::WordPool; show_plot::Bool=true, save_path::Union{Nothing, String}=nothing)
+    ext = _plotting_ext()
+    ext === nothing && throw(ArgumentError("Plotting requires PyPlot, but it is not available.\n" * _plotting_install_hint()))
+    return ext.plot_word_review_history(pool; show_plot=show_plot, save_path=save_path)
+end
 
-    task_specs = [
-        ("Hanzi → Pinyin",       (Hanzi, Pinyin)),
-        ("Hanzi → Translation",  (Hanzi, Translation)),
-        ("Pinyin → Hanzi",       (Pinyin, Hanzi)),
-        ("Pinyin → Translation", (Pinyin, Translation)),
-        ("Translation → Hanzi",  (Translation, Hanzi)),
-        ("Translation → Pinyin", (Translation, Pinyin))
-    ]
+"""Plot per-task review history (colors = tasks).
 
-    colors = ["red", "blue", "green", "orange", "purple", "cyan"]
-
-    Base.invokelatest(getfield(PyPlot, :figure); figsize=(10, 6))
-
-    labeled = fill(false, length(task_specs))
-
-    for (task_index, (task_label, task_type)) in enumerate(task_specs)
-        color = colors[task_index]
-
-        for word in values(pool.known_words)
-            history = word.stats[task_type].review_history
-            isempty(history) && continue
-
-            t0 = history[1].date_reviewed
-            times = [(h.date_reviewed - t0) / Minute(1) for h in history]
-            levels = [h.level_new for h in history]
-
-            if length(times) >= 2
-                label = labeled[task_index] ? "_nolegend_" : task_label
-                Base.invokelatest(getfield(PyPlot, :plot),
-                    times[2:end], levels[2:end] .+ 0.15 * task_index, ".";
-                    color=color, label=label)
-                labeled[task_index] = true
-            end
-        end
-    end
-
-    Base.invokelatest(getfield(PyPlot, :xlabel), "Time since first review (minutes)")
-    Base.invokelatest(getfield(PyPlot, :ylabel), "Word level")
-    Base.invokelatest(getfield(PyPlot, :title), "Review history by task")
-    Base.invokelatest(getfield(PyPlot, :grid), true)
-    Base.invokelatest(getfield(PyPlot, :tight_layout))
-    Base.invokelatest(getfield(PyPlot, :xscale), "log")
-    Base.invokelatest(getfield(PyPlot, :legend); loc="upper left", bbox_to_anchor=(1, 1))
-
-    if show_plot
-        Base.invokelatest(getfield(PyPlot, :show))
-    end
-
-    return nothing
+This is a clearer name for the plot implemented by `plot_word_review_history`.
+"""
+function plot_task_review_history(pool::WordPool; show_plot::Bool=true, save_path::Union{Nothing, String}=nothing)
+    return plot_word_review_history(pool; show_plot=show_plot, save_path=save_path)
 end
 
 """Plot per-word learning history (one line per word).
 
-This is an adaptation of an older helper that plotted a single trajectory per word
-and annotated the last point with hanzi.
-
-Because the current data model stores review history per *task* (e.g. `Hanzi → Pinyin`),
-this function reconstructs an approximate *global* level history by:
-1) merging all per-task review events for the word
-2) replaying them in chronological order
-3) recomputing the global level as the minimum across task levels after each event
-
-Keyword args:
-- `max_words::Int=40`: limit plotted words to avoid unreadable clutter
-- `annotate::Bool=true`: annotate the last point with hanzi
-- `show_plot::Bool=true`: call `PyPlot.show()` (set `false` for tests/headless)
+This functionality is optional and requires `PyPlot` installed in the active
+project environment.
 """
-function plot_review_history(words::Vector{Word}; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true)
-    # PyPlot requires a working Python + matplotlib; on CI (e.g. Ubuntu) this may
-    # not be available. In headless mode, silently skip plotting.
-    PyPlot = _maybe_load_pyplot(show_plot)
-    PyPlot === nothing && return nothing
+function plot_review_history(words::Vector{Word}; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true, save_path::Union{Nothing, String}=nothing)
+    ext = _plotting_ext()
+    ext === nothing && throw(ArgumentError("Plotting requires PyPlot, but it is not available.\n" * _plotting_install_hint()))
+    return ext.plot_review_history(words; max_words=max_words, annotate=annotate, show_plot=show_plot, save_path=save_path)
+end
 
-    Base.invokelatest(getfield(PyPlot, :figure); figsize=(10, 6))
-    Base.invokelatest(getfield(PyPlot, :title), "Word learning history")
-    Base.invokelatest(getfield(PyPlot, :xlabel), "Time")
-    Base.invokelatest(getfield(PyPlot, :ylabel), "Global level (min across tasks)")
+"""Plot per-word learning history (one line per word, annotated with Hanzi).
 
-    offset_step = 0.10
-    offset_index = 0
-
-    # To keep the plot readable: use the first N words.
-    for word in Iterators.take(words, max_words)
-        # Build merged event list: (date, task_type, level_new)
-        events = Vector{Tuple{DateTime, Tuple{AttributeType, AttributeType}, Int}}()
-        for (task_type, stats) in word.stats
-            for h in stats.review_history
-                push!(events, (h.date_reviewed, task_type, h.level_new))
-            end
-        end
-
-        isempty(events) && continue
-        sort!(events, by = e -> e[1])
-
-        # Replay to reconstruct global level over time.
-        task_levels = Dict(task => 0 for task in keys(word.stats))
-        times = DateTime[]
-        global_levels = Int[]
-        for (dt, task_type, level_new) in events
-            task_levels[task_type] = level_new
-            push!(times, dt)
-            push!(global_levels, minimum(values(task_levels)))
-        end
-
-        Base.invokelatest(getfield(PyPlot, :plot), times, global_levels; linewidth=2)
-
-        if annotate
-            y_offset = offset_step * ((offset_index % 2 == 0) ? 1 : -1)
-            Base.invokelatest(getfield(PyPlot, :annotate),
-                word.hanzi,
-                (times[end], global_levels[end] + y_offset);
-                fontsize=12, fontname="Arial Unicode MS", ha="left")
-            offset_index += 1
-        end
-    end
-
-    Base.invokelatest(getfield(PyPlot, :grid), true)
-    Base.invokelatest(getfield(PyPlot, :tight_layout))
-
-    if show_plot
-        Base.invokelatest(getfield(PyPlot, :show))
-    end
-
-    return nothing
+This is a clearer name for the plot implemented by `plot_review_history`.
+"""
+function plot_word_learning_history(words::Vector{Word}; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true, save_path::Union{Nothing, String}=nothing)
+    return plot_review_history(words; max_words=max_words, annotate=annotate, show_plot=show_plot, save_path=save_path)
 end
 
 """Convenience overload: plot per-word learning history for `pool.known_words`."""
-function plot_review_history(pool::WordPool; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true)
+function plot_review_history(pool::WordPool; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true, save_path::Union{Nothing, String}=nothing)
     words = collect(values(pool.known_words))
-    return plot_review_history(words; max_words=max_words, annotate=annotate, show_plot=show_plot)
+    return plot_review_history(words; max_words=max_words, annotate=annotate, show_plot=show_plot, save_path=save_path)
 end
 
-function _maybe_load_pyplot(show_plot::Bool)::Union{Module, Nothing}
-    try
-        # Lazy-load optional plotting dependency.
-        # This keeps TrainChinese usable (and CI green) without a working Python/matplotlib stack.
-        @eval import PyPlot
-        return PyPlot
-    catch err
-        if show_plot
-            throw(ArgumentError(
-                "Plotting requires PyPlot, but it isn't available in the active environment. " *
-                "Install it with: `import Pkg; Pkg.add(\"PyPlot\")`. Original error: $(err)"
-            ))
-        end
-        return nothing
-    end
+"""Convenience overload: plot per-word learning history for `pool.known_words`.
+
+This is a clearer name for the plot implemented by `plot_review_history`.
+"""
+function plot_word_learning_history(pool::WordPool; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true, save_path::Union{Nothing, String}=nothing)
+    return plot_review_history(pool; max_words=max_words, annotate=annotate, show_plot=show_plot, save_path=save_path)
 end
 
 """Decide whether a new word should be introduced given current pool composition."""

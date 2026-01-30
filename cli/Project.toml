@@ -1,0 +1,9 @@
+[deps]
+TrainChinese = "6d5b3b3b-9b6a-4f5a-88f6-8a2e6405c7c8"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+
+[sources]
+TrainChinese = { path = ".." }
+
+[compat]
+julia = "1"

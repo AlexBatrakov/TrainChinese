@@ -99,34 +99,37 @@ This allows you to remember the *idea* (key words) instead of reproducing the ex
 
 - Julia (recent 1.x).
 
-Julia packages used by the script:
+The main dependencies are declared in `Project.toml` (e.g. `JSON`, `StatsBase`).
+Optional plotting is implemented via an extension and requires `PyPlot`.
 
-- `JSON`
-- `StatsBase`
+To install the base dependencies for this repo:
 
-Optional (only for plotting helpers):
-
-- `PyPlot`
-
-(`Dates`, `Statistics`, `Random`, `Printf` are part of the standard library.)
-
-If you don’t have the packages installed yet, start Julia and run:
-
-```julia
-import Pkg
-Pkg.add(["JSON", "StatsBase"])
+```bash
+julia --project=. -e 'import Pkg; Pkg.instantiate()'
 ```
 
-To enable plotting helpers (`--plot-history`), also install:
+To enable plotting helpers (`--plot-history`), install plotting dependencies into the CLI environment.
+The easiest way is:
 
-```julia
-import Pkg
-Pkg.add("PyPlot")
+```bash
+trainchinese --install-plotting
+```
+
+If you prefer doing it manually:
+
+```bash
+julia --project=cli -e 'import Pkg; Pkg.instantiate()'
 ```
 
 ## Quick start
 
 From the repository folder:
+
+```bash
+./bin/trainchinese
+```
+
+Alternative (without the wrapper):
 
 ```bash
 julia --project=. train_chinese.jl
@@ -157,22 +160,28 @@ trainchinese --stats
 ### CLI options
 
 ```bash
-julia --project=. train_chinese.jl --help
+trainchinese --help
 ```
 
 Common flags:
 
 - `--stats` — print current pool statistics and exit
-- `--plot-history` — plot learning history and exit (requires `PyPlot`)
+- `--plot-history` — plot per-task history (colors = tasks) and exit (requires `PyPlot`)
+- `--plot-history --no-show` — generate the plot without opening a GUI window
+- `--plot-history --save-plot FILE.png` — save the plot to a file and exit
+- `--plot-word-history` — plot per-word learning history and exit (requires `PyPlot`)
+- `--install-plotting` — install plotting deps into the `cli/` environment
 - `--save FILE` — override save JSON (default: `ChineseSave.json`)
 - `--vocab FILE` — override vocabulary TXT (default: `ChineseVocabulary.txt`)
 - `--stats-out FILE` — override stats export TXT (default: `ChineseStats.txt`)
 
-If this is the first run on a machine, instantiate dependencies:
+If you run without the wrapper, you may need to instantiate dependencies first:
 
 ```bash
 julia --project=. -e 'import Pkg; Pkg.instantiate()'
 ```
+
+The wrapper (`bin/trainchinese`) instantiates the `cli/` environment automatically on first run.
 
 The trainer will:
 

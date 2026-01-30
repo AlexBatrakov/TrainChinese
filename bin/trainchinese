@@ -15,5 +15,18 @@ done
 SCRIPT_DIR=$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)
 ROOT_DIR=$(cd "$SCRIPT_DIR/.." >/dev/null 2>&1 && pwd)
 
-# Run via the repo project environment.
-exec julia --project="$ROOT_DIR" "$ROOT_DIR/train_chinese.jl" "$@"
+# Run via the CLI project environment (separate from the package deps).
+CLI_DIR="$ROOT_DIR/cli"
+
+if [ ! -f "$CLI_DIR/Project.toml" ]; then
+  echo "TrainChinese: missing $CLI_DIR/Project.toml" 1>&2
+  exit 2
+fi
+
+# First run: install dependencies for the CLI environment.
+if [ ! -f "$CLI_DIR/Manifest.toml" ]; then
+  echo "TrainChinese: installing CLI dependencies (first run)..." 1>&2
+  julia --project="$CLI_DIR" -e 'import Pkg; Pkg.instantiate()'
+fi
+
+exec julia --project="$CLI_DIR" "$ROOT_DIR/train_chinese.jl" "$@"
