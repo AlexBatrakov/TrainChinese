@@ -1,5 +1,7 @@
 # TrainChinese
 
+[![CI](https://github.com/AlexBatrakov/TrainChinese/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexBatrakov/TrainChinese/actions/workflows/ci.yml)
+
 Terminal-based Chinese vocabulary trainer written in Julia.
 
 The app focuses on active recall across three attributes of a word:
