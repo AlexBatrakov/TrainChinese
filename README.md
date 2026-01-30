@@ -117,7 +117,13 @@ Pkg.add(["JSON", "StatsBase", "PyPlot"])
 From the repository folder:
 
 ```bash
-julia train_chinese.jl
+julia --project=. train_chinese.jl
+```
+
+If this is the first run on a machine, instantiate dependencies:
+
+```bash
+julia --project=. -e 'import Pkg; Pkg.instantiate()'
 ```
 
 The trainer will:
@@ -125,6 +131,19 @@ The trainer will:
 1. Load progress from `ChineseSave.json`.
 2. Load vocabulary from `ChineseVocabulary.txt` and merge new entries into the pool.
 3. Start an interactive training session and periodically write updated progress/stats.
+
+## Using it as a Julia project/package
+
+This repo contains a `Project.toml` and a small module wrapper in `src/TrainChinese.jl`, so you can also use it from the Julia REPL:
+
+```julia
+import Pkg
+Pkg.activate(".")
+Pkg.instantiate()
+
+using TrainChinese
+TrainChinese.main()
+```
 
 ## Data files
 

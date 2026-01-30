@@ -1,0 +1,6 @@
+# Julia
+/Manifest.toml
+*.ji
+
+# macOS
+.DS_Store

@@ -1255,4 +1255,7 @@ function main()
 
 end
 
-main()
+# Only auto-run when executed as a script, not when included as a package/module.
+if abspath(PROGRAM_FILE) == @__FILE__
+    main()
+end
