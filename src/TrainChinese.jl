@@ -1,9 +1,23 @@
 module TrainChinese
 
-# Keep the implementation in a single place.
-# When used as a package ("using TrainChinese"), this includes definitions
-# without auto-running the interactive CLI.
-include(joinpath(@__DIR__, "..", "train_chinese.jl"))
+using Dates
+using JSON
+using Statistics
+using Random
+using Printf
+using PyPlot
+using StatsBase
+
+include("types.jl")
+include("scheduling.jl")
+include("ui.jl")
+include("pinyin.jl")
+include("platform_macos.jl")
+include("vocabulary.jl")
+include("persistence.jl")
+include("search.jl")
+include("tasks.jl")
+include("training.jl")
 
 export main
 
