@@ -14,7 +14,7 @@ end
 
 """Speak a word's hanzi via macOS `say`.
 
-Contains a small set of disambiguation hacks for characters that `say` pronounces
+Contains a small set of disambiguation workarounds for characters that `say` pronounces
 unexpectedly depending on context.
 """
 function say_word(word::Word, voice::String = "Tingting")
@@ -46,21 +46,21 @@ function say_word(word::Word, voice::String = "Tingting")
     elseif text == "卷" && pinyin == "juan4"
         text = "锩"
     elseif text == "挑" && pinyin == "tiao3"
-        text == "斢"
+        text = "斢"
     elseif text == "落" && pinyin == "la4"
-        text == "辣"
+        text = "辣"
     elseif text == "散" && pinyin == "san3"
-        text == "伞"
+        text = "伞"
     elseif text == "扇" && pinyin == "shan1"
-        text == "山"
+        text = "山"
     elseif text == "吐" && pinyin == "tu4"
-        text == "兔"
+        text = "兔"
     elseif text == "看" && pinyin == "kan1"
-        text == "刊"
+        text = "刊"
     elseif text == "露" && pinyin == "lou4"
-        text == "漏"
+        text = "漏"
     elseif text == "蒙" && pinyin == "meng1"
-        text == text
+        text = text
     end
 
     # Add short pauses before and after the text

@@ -132,6 +132,20 @@ From the repository folder:
 julia --project=. train_chinese.jl
 ```
 
+### CLI options
+
+```bash
+julia --project=. train_chinese.jl --help
+```
+
+Common flags:
+
+- `--stats` — print current pool statistics and exit
+- `--plot-history` — plot learning history and exit (requires `PyPlot`)
+- `--save FILE` — override save JSON (default: `ChineseSave.json`)
+- `--vocab FILE` — override vocabulary TXT (default: `ChineseVocabulary.txt`)
+- `--stats-out FILE` — override stats export TXT (default: `ChineseStats.txt`)
+
 If this is the first run on a machine, instantiate dependencies:
 
 ```bash

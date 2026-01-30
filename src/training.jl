@@ -61,17 +61,17 @@ function train_word(word::Word, pool::WordPool)
     end
 
     # Choose the attribute with the minimum level
-    attibute_to_train_from = argmin(x -> x[2].level, word.stats)[1][1]
-    println("Training attribute: ", attibute_to_train_from)
+    attribute_to_train_from = argmin(x -> x[2].level, word.stats)[1][1]
+    println("Training attribute: ", attribute_to_train_from)
 
-    if attibute_to_train_from == Hanzi
+    if attribute_to_train_from == Hanzi
         train_from_hanzi(word, pool)
-    elseif attibute_to_train_from == Pinyin
+    elseif attribute_to_train_from == Pinyin
         train_from_pinyin(word, pool)
-    elseif attibute_to_train_from == Translation
+    elseif attribute_to_train_from == Translation
         train_from_translation(word, pool)
     else
-        println("Unknown attribute to train: ", attibute_to_train_from)
+        println("Unknown attribute to train: ", attribute_to_train_from)
     end
 
     say_text(word.hanzi)
