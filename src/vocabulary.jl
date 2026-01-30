@@ -31,11 +31,14 @@ function update_word_pool_from_file!(pool::WordPool, filename::String)
     count_repeate_translation = 0
     open(filename, "r") do file
         for line in eachline(file)
-            if line[1:4] == "STOP"
+            s = strip(line)
+            isempty(s) && continue
+
+            if startswith(s, "STOP")
                 break
-            elseif line[1] == '#'
+            elseif startswith(s, "#")
                 continue
-            elseif line[1:4] == "SKIP"
+            elseif startswith(s, "SKIP")
                 skip_key = skip_key ? false : true
                 continue
             elseif skip_key == true
@@ -43,7 +46,10 @@ function update_word_pool_from_file!(pool::WordPool, filename::String)
             end
 
             # Split the line into hanzi, pinyin, translation (and optional context)
-            parts = split(line, " | ")
+            parts = split(s, " | ")
+            if length(parts) == 1
+                parts = strip.(split(s, '|'))
+            end
             if (length(parts) == 4 || length(parts) == 5)
                 context = ""
                 id, hanzi, pinyin, translation = parts[1:4]

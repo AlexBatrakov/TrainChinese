@@ -207,8 +207,8 @@ CC-CEDICT-based dictionary file used by the trainer for additional lookups.
 ## Roadmap ideas (optional)
 
 - Make TTS/layout helpers cross-platform (feature flags or OS detection).
-- Turn the script into a Julia package with a small CLI entry point.
-- Add automated tests for file parsing and scheduling math.
+- Add a small installed CLI wrapper (so you can run it without typing `julia --project=...`).
+- Expand automated tests for parsing, scheduling, and persistence.
 
 ## License
 
