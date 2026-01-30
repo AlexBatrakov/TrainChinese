@@ -185,6 +185,11 @@ Keyword args:
 - `show_plot::Bool=true`: call `PyPlot.show()` at the end (set to `false` for tests / headless runs).
 """
 function plot_word_review_history(pool::WordPool; show_plot::Bool=true)
+    # PyPlot requires a working Python + matplotlib; on CI (e.g. Ubuntu) this may
+    # not be available. In headless mode, silently skip plotting.
+    PyPlot = _maybe_load_pyplot(show_plot)
+    PyPlot === nothing && return nothing
+
     task_specs = [
         ("Hanzi → Pinyin",       (Hanzi, Pinyin)),
         ("Hanzi → Translation",  (Hanzi, Translation)),
@@ -196,7 +201,7 @@ function plot_word_review_history(pool::WordPool; show_plot::Bool=true)
 
     colors = ["red", "blue", "green", "orange", "purple", "cyan"]
 
-    PyPlot.figure(figsize=(10, 6))
+    Base.invokelatest(getfield(PyPlot, :figure); figsize=(10, 6))
 
     labeled = fill(false, length(task_specs))
 
@@ -213,22 +218,24 @@ function plot_word_review_history(pool::WordPool; show_plot::Bool=true)
 
             if length(times) >= 2
                 label = labeled[task_index] ? "_nolegend_" : task_label
-                PyPlot.plot(times[2:end], levels[2:end] .+ 0.15 * task_index, ".", color=color, label=label)
+                Base.invokelatest(getfield(PyPlot, :plot),
+                    times[2:end], levels[2:end] .+ 0.15 * task_index, ".";
+                    color=color, label=label)
                 labeled[task_index] = true
             end
         end
     end
 
-    PyPlot.xlabel("Time since first review (minutes)")
-    PyPlot.ylabel("Word level")
-    PyPlot.title("Review history by task")
-    PyPlot.grid(true)
-    PyPlot.tight_layout()
-    PyPlot.xscale("log")
-    PyPlot.legend(loc="upper left", bbox_to_anchor=(1, 1))
+    Base.invokelatest(getfield(PyPlot, :xlabel), "Time since first review (minutes)")
+    Base.invokelatest(getfield(PyPlot, :ylabel), "Word level")
+    Base.invokelatest(getfield(PyPlot, :title), "Review history by task")
+    Base.invokelatest(getfield(PyPlot, :grid), true)
+    Base.invokelatest(getfield(PyPlot, :tight_layout))
+    Base.invokelatest(getfield(PyPlot, :xscale), "log")
+    Base.invokelatest(getfield(PyPlot, :legend); loc="upper left", bbox_to_anchor=(1, 1))
 
     if show_plot
-        PyPlot.show()
+        Base.invokelatest(getfield(PyPlot, :show))
     end
 
     return nothing
@@ -251,10 +258,15 @@ Keyword args:
 - `show_plot::Bool=true`: call `PyPlot.show()` (set `false` for tests/headless)
 """
 function plot_review_history(words::Vector{Word}; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true)
-    PyPlot.figure(figsize=(10, 6))
-    PyPlot.title("Word learning history")
-    PyPlot.xlabel("Time")
-    PyPlot.ylabel("Global level (min across tasks)")
+    # PyPlot requires a working Python + matplotlib; on CI (e.g. Ubuntu) this may
+    # not be available. In headless mode, silently skip plotting.
+    PyPlot = _maybe_load_pyplot(show_plot)
+    PyPlot === nothing && return nothing
+
+    Base.invokelatest(getfield(PyPlot, :figure); figsize=(10, 6))
+    Base.invokelatest(getfield(PyPlot, :title), "Word learning history")
+    Base.invokelatest(getfield(PyPlot, :xlabel), "Time")
+    Base.invokelatest(getfield(PyPlot, :ylabel), "Global level (min across tasks)")
 
     offset_step = 0.10
     offset_index = 0
@@ -282,21 +294,23 @@ function plot_review_history(words::Vector{Word}; max_words::Int=40, annotate::B
             push!(global_levels, minimum(values(task_levels)))
         end
 
-        PyPlot.plot(times, global_levels, linewidth=2)
+        Base.invokelatest(getfield(PyPlot, :plot), times, global_levels; linewidth=2)
 
         if annotate
             y_offset = offset_step * ((offset_index % 2 == 0) ? 1 : -1)
-            PyPlot.annotate(word.hanzi, (times[end], global_levels[end] + y_offset),
+            Base.invokelatest(getfield(PyPlot, :annotate),
+                word.hanzi,
+                (times[end], global_levels[end] + y_offset);
                 fontsize=12, fontname="Arial Unicode MS", ha="left")
             offset_index += 1
         end
     end
 
-    PyPlot.grid(true)
-    PyPlot.tight_layout()
+    Base.invokelatest(getfield(PyPlot, :grid), true)
+    Base.invokelatest(getfield(PyPlot, :tight_layout))
 
     if show_plot
-        PyPlot.show()
+        Base.invokelatest(getfield(PyPlot, :show))
     end
 
     return nothing
@@ -306,6 +320,18 @@ end
 function plot_review_history(pool::WordPool; max_words::Int=40, annotate::Bool=true, show_plot::Bool=true)
     words = collect(values(pool.known_words))
     return plot_review_history(words; max_words=max_words, annotate=annotate, show_plot=show_plot)
+end
+
+function _maybe_load_pyplot(show_plot::Bool)::Union{Module, Nothing}
+    try
+        return Base.require(Base.PkgId(Base.UUID("d330b81b-6aea-500a-939a-2ce795aea3ee"), "PyPlot"))
+    catch
+        if show_plot
+            rethrow()
+        else
+            return nothing
+        end
+    end
 end
 
 """Decide whether a new word should be introduced given current pool composition."""

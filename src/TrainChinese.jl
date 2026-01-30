@@ -5,7 +5,6 @@ using JSON
 using Statistics
 using Random
 using Printf
-using PyPlot
 using StatsBase
 
 include("types.jl")
