@@ -15,6 +15,84 @@ The app focuses on active recall across three attributes of a word:
 	- Text-to-speech via `say`.
 	- Keyboard layout toggle via `osascript` (useful for Hanzi input).
 
+## Algorithm overview (spaced repetition)
+
+This trainer models forgetting as an exponential decay process and uses it to:
+
+1. Decide which words are due for review.
+2. Update the learning level after each attempt.
+3. Keep **separate progress** for different skills (so you don’t end up “knowing how to write it” but forgetting how it sounds).
+
+### Priority (when a word is due)
+
+For each task, the script derives a **priority** from time since last review and the current level:
+
+```
+priority = (minutes_since_last_review) / 2^level
+```
+
+Intuition:
+
+- Right after a review, `minutes_since_last_review` is small → low priority.
+- Higher `level` means a longer effective half-life (`2^level`) → the same time gap becomes less urgent.
+
+The session selects words whose **global** priority is high enough (plus level-0 words) and trains them in small random batches.
+
+### Memory strength (probability-like “how likely I remember it”)
+
+Priority is converted into **memory strength** (0..1) using an exponential decay:
+
+```
+memory_strength = 2^(-C * priority)
+```
+
+So the longer you wait (higher priority), the lower the memory strength becomes.
+
+### Probabilistic level updates (multi-level jumps)
+
+Instead of `level += 1` / `level -= 1`, the update is **probabilistic** and can jump multiple levels.
+
+- If you answered correctly, the chance to increase the level is higher when `memory_strength` was low.
+  - Meaning: if you hadn’t seen the item for a long time but still recalled it, that’s strong evidence of learning.
+- If you answered incorrectly, the chance to decrease the level is higher when `memory_strength` was high.
+  - Meaning: if you reviewed recently (model says you should remember) but failed, that’s a bad signal.
+
+The script applies the update as a chain of Bernoulli trials, so in rare cases the level can go up/down by more than one.
+
+### Separate levels per skill (directed tasks)
+
+Each word tracks statistics for *directed* tasks between the three attributes:
+
+- Hanzi, Pinyin (tone numbers), Translation
+
+This produces tasks like:
+
+- `Hanzi -> Pinyin`, `Hanzi -> Translation`
+- `Pinyin -> Hanzi`, `Pinyin -> Translation`
+- `Translation -> Hanzi`, `Translation -> Pinyin`
+
+The **global level** of a word is derived from these task levels (the weakest task dominates), which prevents “lopsided learning”.
+
+### Training modes (what you actually practice)
+
+For a chosen word, the trainer selects the *weakest starting attribute* and then runs a short sequence:
+
+- Start from Hanzi: warm-up Hanzi input → train `Hanzi -> Pinyin` and `Hanzi -> Translation`
+- Start from Pinyin (sound): warm-up with TTS → train `Pinyin -> Hanzi` and `Pinyin -> Translation`
+- Start from Translation: show translation/context → train `Translation -> Hanzi` and `Translation -> Pinyin`
+
+### Translation task via keywords (not exact wording)
+
+Translation recall is implemented as: type keywords → get a shortlist → choose the intended option.
+
+Input format:
+
+```
+translation_kw1+translation_kw2;context_kw1+context_kw2
+```
+
+This allows you to remember the *idea* (key words) instead of reproducing the exact dictionary wording.
+
 ## Requirements
 
 - Julia (recent 1.x).
