@@ -10,9 +10,12 @@ function _print_help()
     println("TrainChinese — terminal Chinese vocabulary trainer")
     println("")
     println("Usage:")
-    println("  julia --project=. train_chinese.jl                # start interactive training (default)")
-    println("  julia --project=. train_chinese.jl --stats        # print current pool statistics and exit")
-    println("  julia --project=. train_chinese.jl --plot-history # plot learning history and exit")
+    println("  julia --project=. train_chinese.jl                         # start interactive training (default)")
+    println("  julia --project=. train_chinese.jl --stats                 # print current pool statistics and exit")
+    println("  julia --project=. train_chinese.jl --plot-history          # plot learning history and exit")
+    println("  julia --project=. train_chinese.jl --save FILE             # use a custom save JSON (default: ChineseSave.json)")
+    println("  julia --project=. train_chinese.jl --vocab FILE            # use a custom vocabulary TXT (default: ChineseVocabulary.txt)")
+    println("  julia --project=. train_chinese.jl --stats-out FILE        # use a custom stats export TXT (default: ChineseStats.txt)")
     println("  julia --project=. train_chinese.jl --version      # print version and exit")
     println("  julia --project=. train_chinese.jl --help         # show this help and exit")
     println("")
@@ -36,6 +39,56 @@ function _load_pool(save_path::String, vocab_path::String)
     return pool
 end
 
+function _parse_value(arg::String)
+    if startswith(arg, "--") && occursin('=', arg)
+        k, v = split(arg, '='; limit=2)
+        return (k, v)
+    end
+    return nothing
+end
+
+function _parse_cli_args(args::Vector{String})
+    flags = Set{String}()
+    opts = Dict{String, String}()
+    unknown = String[]
+
+    i = 1
+    while i <= length(args)
+        a = args[i]
+
+        kv = _parse_value(a)
+        if kv !== nothing
+            k, v = kv
+            if k in ("--save", "--vocab", "--stats-out")
+                opts[k] = v
+            else
+                push!(unknown, a)
+            end
+            i += 1
+            continue
+        end
+
+        if a in ("--help", "-h", "--version", "-V", "--stats", "--plot-history")
+            push!(flags, a)
+            i += 1
+        elseif a in ("--save", "--vocab", "--stats-out")
+            if i == length(args)
+                println("Missing value for ", a)
+                println("")
+                _print_help()
+                exit(2)
+            end
+            opts[a] = args[i + 1]
+            i += 2
+        else
+            push!(unknown, a)
+            i += 1
+        end
+    end
+
+    return flags, opts, unknown
+end
+
 # Try to load the package from the current environment first.
 # If that fails (common when running without `--project=.`), fall back to
 # activating the local project environment.
@@ -50,26 +103,32 @@ end
 if abspath(PROGRAM_FILE) == @__FILE__
     # Minimal argument handling.
     # Default remains unchanged: no args -> interactive training session.
-    if any(x -> x in ("--help", "-h"), ARGS)
+
+    flags, opts, unknown = _parse_cli_args(ARGS)
+    save_path = get(opts, "--save", "ChineseSave.json")
+    vocab_path = get(opts, "--vocab", "ChineseVocabulary.txt")
+    stats_path = get(opts, "--stats-out", "ChineseStats.txt")
+
+    if ("--help" in flags) || ("-h" in flags)
         _print_help()
         exit(0)
-    elseif any(x -> x in ("--version", "-V"), ARGS)
+    elseif ("--version" in flags) || ("-V" in flags)
         _print_version(@__DIR__)
         exit(0)
-    elseif any(==("--stats"), ARGS)
-        pool = _load_pool("ChineseSave.json", "ChineseVocabulary.txt")
+    elseif "--stats" in flags
+        pool = _load_pool(save_path, vocab_path)
         TrainChinese.display_statistics(pool)
         exit(0)
-    elseif any(==("--plot-history"), ARGS)
-        pool = _load_pool("ChineseSave.json", "ChineseVocabulary.txt")
+    elseif "--plot-history" in flags
+        pool = _load_pool(save_path, vocab_path)
         TrainChinese.plot_review_history(pool)
         exit(0)
-    elseif !isempty(ARGS)
-        println("Unknown arguments: ", join(ARGS, " "))
+    elseif !isempty(unknown)
+        println("Unknown arguments: ", join(unknown, " "))
         println("")
         _print_help()
         exit(2)
     else
-        TrainChinese.main()
+        TrainChinese.main(; save_path=save_path, vocab_path=vocab_path, stats_path=stats_path)
     end
 end

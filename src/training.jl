@@ -427,7 +427,9 @@ Each loop iteration:
 3) trains them
 4) saves progress to disk
 """
-function start_training_session(pool::WordPool, params::TrainingParams)
+function start_training_session(pool::WordPool, params::TrainingParams;
+    save_path::String="ChineseSave.json",
+    stats_path::String="ChineseStats.txt")
     while true
         # 1. Decide whether to add a new word
         if should_add_new_word(pool, params)
@@ -469,8 +471,8 @@ function start_training_session(pool::WordPool, params::TrainingParams)
         end
 
         # 4. Save results after each training round
-        save_words_to_file(pool.known_words, "ChineseSave.json")
-        save_stats_to_file(pool.known_words, "ChineseStats.txt")
+        save_words_to_file(pool.known_words, save_path)
+        save_stats_to_file(pool.known_words, stats_path)
 
         # Ask whether to continue
         println("\nContinue training? (press Enter to continue, or type 'exit' to quit)")
@@ -483,13 +485,14 @@ function start_training_session(pool::WordPool, params::TrainingParams)
 end
 
 """Program entry point."""
-function main()
-    pool = WordPool()
-    pool = WordPool(load_words_from_file("ChineseSave.json"), Dict{String, Word}())
+function main(; save_path::String="ChineseSave.json",
+    vocab_path::String="ChineseVocabulary.txt",
+    stats_path::String="ChineseStats.txt")
+    pool = WordPool(load_words_from_file(save_path), Dict{String, Word}())
     params = TrainingParams()
 
     # Update the word pool from the vocabulary file
-    update_word_pool_from_file!(pool, "ChineseVocabulary.txt")
+    update_word_pool_from_file!(pool, vocab_path)
 
-    start_training_session(pool, params)
+    start_training_session(pool, params; save_path=save_path, stats_path=stats_path)
 end
