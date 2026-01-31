@@ -17,6 +17,20 @@ The app focuses on active recall across three attributes of a word:
 	- Text-to-speech via `say`.
 	- Keyboard layout toggle via `osascript` (useful for Hanzi input).
 
+## Screenshots
+
+Interactive training in the terminal:
+
+![CLI screenshot](assets/cli.png)
+
+Per-task review history (colors = tasks):
+
+![Per-task history plot](assets/plot-history.png)
+
+Per-word learning history:
+
+![Per-word history plot](assets/plot-word-history.png)
+
 ## Algorithm overview (spaced repetition)
 
 This trainer models forgetting as an exponential decay process and uses it to:
