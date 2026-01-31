@@ -122,19 +122,6 @@ To install the base dependencies for this repo:
 julia --project=. -e 'import Pkg; Pkg.instantiate()'
 ```
 
-To enable plotting helpers (`--plot-history`), install plotting dependencies into the CLI environment.
-The easiest way is:
-
-```bash
-trainchinese --install-plotting
-```
-
-If you prefer doing it manually:
-
-```bash
-julia --project=cli -e 'import Pkg; Pkg.instantiate()'
-```
-
 ## Quick start
 
 From the repository folder:
@@ -147,6 +134,23 @@ Alternative (without the wrapper):
 
 ```bash
 julia --project=. train_chinese.jl
+```
+
+## Plotting (optional)
+
+Plotting uses `PyPlot` and is intentionally installed into the separate `cli/` environment.
+
+Recommended:
+
+```bash
+./bin/trainchinese --install-plotting
+./bin/trainchinese --plot-history
+```
+
+Manual (equivalent):
+
+```bash
+julia --project=cli -e 'import Pkg; Pkg.instantiate()'
 ```
 
 ## Installed CLI (optional)
