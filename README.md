@@ -1,6 +1,9 @@
 # TrainChinese
 
 [![CI](https://github.com/AlexBatrakov/TrainChinese/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexBatrakov/TrainChinese/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/AlexBatrakov/TrainChinese?sort=semver)](https://github.com/AlexBatrakov/TrainChinese/releases)
+[![License](https://img.shields.io/github/license/AlexBatrakov/TrainChinese)](LICENSE)
+[![Julia](https://img.shields.io/badge/Julia-1.x-9558B2?logo=julia&logoColor=white)](https://julialang.org/)
 
 Terminal-based Chinese vocabulary trainer written in Julia.
 
